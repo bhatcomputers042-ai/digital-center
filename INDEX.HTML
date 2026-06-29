@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhat Computers Kokernag - CSC & Digital Services</title>
+    <!-- Cropper.js CSS for Image Cropping functionality -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        /* Base Themes (Black & Gold Palette) */
+        :root {
+            --dark-bg: #111111;
+            --card-bg: #1c1c1c;
+            --gold: #d4af37;
+            --gold-hover: #f3e5ab;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Header / Navigation */
+        header {
+            background-color: #000000;
+            border-bottom: 2px solid var(--gold);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            color: var(--gold);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .contact-btn {
+            background: var(--gold);
+            color: #000;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: var(--gold-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?auto=format&fit=crop&w=1200&q=80') center/cover;
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .hero h2 span {
+            color: var(--gold);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        /* Search Bar Section */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--gold);
+            background: #000;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Tools Main Section Layout */
+        .tools-wrapper {
+            max-width: 800px;
+            margin: 40px auto 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tool-container {
+            background: var(--card-bg);
+            border: 1px solid #2d2d2d;
+            border-left: 4px solid var(--gold);
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .tool-container h3 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .custom-file-wrapper {
+            margin: 15px 0;
+            padding: 20px;
+            border: 2px dashed var(--gold);
+            border-radius: 6px;
+            text-align: center;
+            background: #111;
+        }
+
+        .custom-file-wrapper input[type="file"] {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* PDF Layout Specific Styles */
+        #status {
+            font-weight: bold;
+            color: var(--gold);
+            margin: 10px 0;
+        }
+
+        .audio-controls {
+            display: none;
+            background: #111;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border: 1px solid #2d2d2d;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            background: #050505;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #2d2d2d;
+            display: none;
+            margin-top: 15px;
+        }
+
+        /* UI Action Buttons Group */
+        .action-btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--gold-hover);
+        }
+
+        .action-btn.btn-danger {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .action-btn.btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .action-btn.btn-secondary {
+            background: #555;
+            color: #fff;
+        }
+
+        .action-btn.btn-secondary:hover {
+            background: #777;
+        }
+
+        /* Image Auto Crop Studio Area Layout */
+        .crop-workspace {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .cropper-wrapper-box {
+            max-height: 450px;
+            background: #111;
+            border: 1px solid #2d2d2d;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .cropper-wrapper-box img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .aspect-ratio-selector {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .aspect-ratio-selector label {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: bold;
+        }
+
+        .ratio-chip {
+            background: #252525;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .ratio-chip.active, .ratio-chip:hover {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+        }
+
+        /* Services Grid Layout */
+        .services-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h3 {
+            font-size: 28px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            padding: 25px;
+            height: 100%;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-link:hover .card {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
+            cursor: pointer;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .card h4 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .card h4::after {
+            content: '➔';
+            font-size: 14px;
+            color: var(--gold);
+            opacity: 0.5;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .card-link:hover .card h4::after {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Footer / Contact Details */
+        footer {
+            background-color: #000;
+            border-top: 2px solid var(--gold);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-info {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        .footer-info h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .footer-info p {
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .whatsapp-link {
+            display: inline-block;
+            margin-top: 15px;
+            background: #25d366;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .whatsapp-link:hover {
+            opacity: 0.9;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #555;
+            margin-top: 30px;
+        }
+    </style>
+    <!-- Include PDF.js and Cropper.js CDNs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>BHAT COMPUTERS</h1>
+                <p>Kokernag • Digital Service Centre</p>
+            </div>
+            <a href="tel:+917780980095" class="contact-btn">📞 Call: 7780980095</a>
+        </div>
+    </header>
+
+    <!-- Hero Showcase Section -->
+    <section class="hero">
+        <h2>Your Trusted <span>CSC & IT Solutions</span> Partner</h2>
+        <p>Click on any service card below to instantly message or consult with us via WhatsApp.</p>
+        
+        <!-- Live Instant Search Bar -->
+        <div class="search-container">
+            <input type="text" id="service-search" placeholder="Search for a service (e.g., Ayushman, PAN, Passport)..." onkeyup="filterServices()">
+        </div>
+    </section>
+
+    <!-- Interactive Tools Central Control Engine Area -->
+    <div class="tools-wrapper">
+        
+        <!-- MODULE A: Online PDF Document Text Reader -->
+        <section class="tool-container">
+            <h3>📄 Online PDF Document Text Reader</h3>
+            <p class="tool-desc">Upload any local PDF form or document to read its text content dynamically or have it spoken out loud.</p>
+            
+            <div class="custom-file-wrapper">
+                <input type="file" id="file-selector" accept=".pdf">
+            </div>
+
+            <div id="status">Ready.</div>
+
+            <!-- Embedded Audio Player Panel -->
+            <div class="audio-controls" id="tts-panel">
+                <button id="btn-play" class="action-btn">▶ Speak / Resume</button>
+                <button id="btn-pause" class="action-btn">⏸ Pause</button>
+                <button id="btn-stop" class="action-btn btn-danger">⏹ Stop</button>
+                <button id="btn-reset" class="action-btn btn-secondary">🔄 Reset Reader</button>
+                <div id="audio-status" style="margin-top: 10px; font-size: 14px; color: var(--text-muted); font-style: italic;">Audio Status: Idle</div>
+            </div>
+
+            <div id="output"></div>
+        </section>
+
+        <!-- MODULE B: Smart JPG Auto Crop Studio -->
+        <section class="tool-container">
+            <h3>🖼️ Smart JPG Auto Crop & Photo Resizer Studio</h3>
+            <p class="tool-desc">Upload a photo to automatically align and crop it into standard sizes like Passport Photo, Stamp Size, or Custom Square forms.</p>
+            
+            <div class="custom-file-wrapper">
+                <input type="file" id="image-selector" accept="image/jpeg, image/jpg, image/png">
+            </div>
+
+            <!-- Workspace Layout Engine -->
+            <div class="crop-workspace" id="crop-studio-box">
+                <div class="aspect-ratio-selector">
+                    <label>Select Template Layout Layout:</label>
+                    <button class="ratio-chip active" onclick="changeCropRatio(3.5/4.5, this)">📸 Passport Size (3.5 x 4.5 cm)</button>
+                    <button class="ratio-chip" onclick="changeCropRatio(2/2.5, this)">🎟️ Stamp Size (2 x 2.5 cm)</button>
+                    <button class="ratio-chip" onclick="changeCropRatio(1, this)">⬜ Square Crop (1:1)</button>
+                    <button class="ratio-chip" onclick="changeCropRatio(NaN, this)">📐 Free Crop Aspect</button>
+                </div>
+
+                <div class="cropper-wrapper-box">
+                    <img id="image-to-crop" alt="Workspace Source Image View">
+                </div>
+
+                <button id="btn-crop-download" class="action-btn">💾 Generate & Download Cropped JPG</button>
+                <button id="btn-crop-reset" class="action-btn btn-secondary">🔄 Cancel / Reset</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Services Grid Display Grid Section -->
+    <section class="services-section">
+        <div class="section-title">
+            <h3>Our Premium Digital Services</h3>
+            <p>Click any card to apply or inquire directly.</p>
+        </div>
+
+        <div class="grid" id="services-grid">
+            
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20apply%20for%20a%20PAN%20Card%20service." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">💳</div>
+                    <h4>PAN Card Services</h4>
+                    <p>New PAN Card registration, corrections, links to Aadhaar, and instant e-PAN generation.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20assistance%20with%20Ayushman%20Bharat%20Golden%20Card." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🏥</div>
+                    <h4>Ayushman Bharat</h4>
+                    <p>Apply for and print PM-JAY Golden health cards to enjoy cashless health benefits.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20register/update%20my%20PM%20Kisan%20account." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🌾</div>
+                    <h4>PM Kisan Registry</h4>
+                    <p>New farmer registrations, e-KYC validation, and installment tracking updates.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20apply%20for%20or%20renew%20a%20Passport." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">✈️</div>
+                    <h4>Passport Services</h4>
+                    <p>Fresh passport requests, re-issues, documentation assistance, and appointment scheduling.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20have%20an%20inquiry%20regarding%20Vahan%20or%20Sarathi%20Driving%20License%20services." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🚗</div>
+                    <h4>Vahan & Sarathi</h4>
+                    <p>Driving License applications, vehicle RC renewals, permit processing, and fee payments.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20do%20a%20Money%20Transfer%20or%20Cash%20Withdrawal." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">💸</div>
+                    <h4>Banking & AEPS</h4>
+                    <p>Aadhaar Enabled Payment System for domestic cash deposits, secure balance checks, and withdrawals.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20apply%20for%20a%20State/Revenue%20Certificate%20(Domicile/Income/Caste)." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">📜</div>
+                    <h4>Revenue Certificates</h4>
+                    <p>Online submission for Domicile, Income, Character, Caste, and Dependent certificates.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20pay%20my%20Utility%20Bills%20(Electricity/Water/Fastag)." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h4>Utility Bill Payments</h4>
+                    <p>Instant clearance of Electricity bills, Water tariffs, Broadband accounts, and Fastag recharges.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20have%20an%20issue%20or%20new%20application%20for%20a%20Voter%20ID." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🗳️</div>
+                    <h4>Voter ID Services</h4>
+                    <p>Registration for new voters, corrections, card downloads, and linking voter IDs.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20apply%20for%20a%20Labour%20Card%20or%20e-Shram." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🛠️</div>
+                    <h4>Labour Card & e-Shram</h4>
+                    <p>New registration for construction workers, e-Shram setup, and state benefit renewals.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20submit%20a%20Scholarship%20or%20Recruitment%20Job%20Form." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h4>Scholarships & Jobs</h4>
+                    <p>Submission of academic scholarship portfolios and state/central employment application forms.</p>
+                </div>
+            </a>
+
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I'm%20inquiring%20about%20Printing,%20Scanning,%20or%20Web%20Design%20solutions." target="_blank" class="card-link">
+                <div class="card">
+                    <div class="card-icon">🖨️</div>
+                    <h4>Printing & Web Solutions</h4>
+                    <p>High-speed printing, document scanning, digital graphics consultation, and basic layout services.</p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer Block -->
+    <footer>
+        <div class="footer-info">
+            <h4>BHAT COMPUTERS KOKERNAG</h4>
+            <p><strong>Proprietor:</strong> Shabir Ahmad Bhat</p>
+            <p><strong>Contact Hotline:</strong> +91 7780980095</p>
+            <p><strong>Location:</strong> Main Market Kokernag, Jammu & Kashmir</p>
+            
+            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20am%20interested%20in%20your%20services." target="_blank" class="whatsapp-link">
+                💬 General WhatsApp Inquiry
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Bhat Computers Kokernag. All Rights Reserved. Designed for Maximum Efficiency.
+        </div>
+    </footer>
+
+    <!-- Comprehensive Page Functionality Logic -->
+    <script>
+        /* --- 1. Live Interactive Search Filter --- */
+        function filterServices() {
+            const searchInput = document.getElementById('service-search').value.toLowerCase();
+            const links = document.getElementsByClassName('card-link');
+
+            for (let i = 0; i < links.length; i++) {
+                const title = links[i].getElementsByTagName('h4')[0].innerText.toLowerCase();
+                const text = links[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+                
+                if (title.includes(searchInput) || text.includes(searchInput)) {
+                    links[i].style.display = "";
+                } else {
+                    links[i].style.display = "none";
+                }
+            }
+        }
+
+        /* --- 2. Client-Side PDF Reader & Audio Setup --- */
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let pagesArray = []; 
+        const synth = window.speechSynthesis;
+
+        const fileSelector = document.getElementById('file-selector');
+        const statusDiv = document.getElementById('status');
+        const outputDiv = document.getElementById('output');
+        const ttsPanel = document.getElementById('tts-panel');
+        const audioStatusDiv = document.getElementById('audio-status');
+
+        fileSelector.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file || file.type !== 'application/pdf') {
+                alert('Please select a valid PDF file.');
+                return;
+            }
+            
+            synth.cancel();
+            audioStatusDiv.innerText = "Audio Status: Idle";
+            statusDiv.innerText = 'Loading PDF...';
+            outputDiv.style.display = 'none';
+            ttsPanel.style.display = 'none';
+            outputDiv.innerText = '';
+            pagesArray = [];
+
+            const fileReader = new FileReader();
+            fileReader.onload = function() {
+                const typedarray = new Uint8Array(this.result);
+
+                pdfjsLib.getDocument(typedarray).promise.then(async function(pdf) {
+                    statusDiv.innerText = `Processing... Found ${pdf.numPages} pages.`;
+                    let fullDisplayText = '';
+
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                        statusDiv.innerText = `Reading page ${pageNum} of ${pdf.numPages}...`;
+                        
+                        const page = await pdf.getPage(pageNum);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ').trim();
+                        
+                        if (pageText) {
+                            pagesArray.push({ pageNum: pageNum, text: pageText });
+                            fullDisplayText += `--- Page ${pageNum} ---\n${pageText}\n\n`;
+                        }
+                    }
+
+                    statusDiv.innerText = 'Extraction complete!';
+                    outputDiv.style.display = 'block';
+                    outputDiv.innerText = fullDisplayText;
+                    
+                    if (pagesArray.length > 0) {
+                        ttsPanel.style.display = 'block';
+                    } else {
+                        statusDiv.innerText = 'Extraction complete (No readable plain text discovered).';
+                    }
+
+                }).catch(function(error) {
+                    statusDiv.innerText = 'Error processing your file.';
+                    console.error(error);
+                });
+            };
+            fileReader.readAsArrayBuffer(file);
+        });
+
+        function speakPDF() {
+            if (synth.speaking) {
+                if (synth.paused) {
+                    synth.resume();
+                    audioStatusDiv.innerText = "Audio Status: Resumed playback...";
+                }
+                return;
+            }
+            if (pagesArray.length === 0) return;
+            audioStatusDiv.innerText = "Audio Status: Preparing speech manager...";
+
+            pagesArray.forEach((pageObj, index) => {
+                const utterance = new SpeechSynthesisUtterance(pageObj.text);
+                
+                utterance.onstart = function() {
+                    audioStatusDiv.innerText = `🔊 Reading: Page ${pageObj.pageNum} of ${pagesArray[pagesArray.length - 1].pageNum}`;
+                };
+
+                if (index === pagesArray.length - 1) {
+                    utterance.onend = function() {
+                        audioStatusDiv.innerText = "Audio Status: Completed reading document.";
+                    };
+                }
+                synth.speak(utterance);
+            });
+        }
+
+        document.getElementById('btn-play').addEventListener('click', speakPDF);
+        document.getElementById('btn-pause').addEventListener('click', () => {
+            if (synth.speaking && !synth.paused) {
+                synth.pause();
+                audioStatusDiv.innerText = "Audio Status: Paused";
+            }
+        });
+        document.getElementById('btn-stop').addEventListener('click', () => {
+            synth.cancel();
+            audioStatusDiv.innerText = "Audio Status: Stopped";
+        });
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            synth.cancel();
+            pagesArray = [];
+            fileSelector.value = ''; 
+            statusDiv.innerText = 'Ready.';
+            audioStatusDiv.innerText = 'Audio Status: Idle';
+            outputDiv.innerText = '';
+            outputDiv.style.display = 'none';
+            ttsPanel.style.display = 'none';
+        });
+
+        /* --- 3. Smart JPG Auto Crop Studio Core Logic Engine --- */
+        let cropperInstance = null;
+        const imageSelector = document.getElementById('image-selector');
+        const cropStudioBox = document.getElementById('crop-studio-box');
+        const imageToCrop = document.getElementById('image-to-crop');
+
+        imageSelector.addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files && files.length > 0) {
+                const file = files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    if (cropperInstance) {
+                        cropperInstance.destroy();
+                    }
+                    
+                    imageToCrop.src = event.target.result;
+                    cropStudioBox.style.display = 'block';
+                    
+                    // Initialize Cropper Engine with Passport Size (3.5:4.5) as default aspect template
+                    cropperInstance = new Cropper(imageToCrop, {
+                        aspectRatio: 3.5 / 4.5,
+                        viewMode: 1,
+                        background: true,
+                        autoCropArea: 0.9,
+                        responsive: true
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function changeCropRatio(ratio, element) {
+            if (!cropperInstance) return;
+            
+            cropperInstance.setAspectRatio(ratio);
+            
+            // Toggle Active Element Styles UI Chips
+            const chips = document.querySelectorAll('.ratio-chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        document.getElementById('btn-crop-download').addEventListener('click', function() {
+            if (!cropperInstance) return;
+            
+            // Generate a high quality canvas array profile output
+            const canvas = cropperInstance.getCroppedCanvas({
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+            
+            // Export directly to high-fidelity JPG format link download triggers
+            canvas.toBlob(function(blob) {
+                const link = document.createElement('a');
+                link.download = 'bhat_computers_cropped_' + Date.now() + '.jpg';
+                link.href = URL.createObjectURL(blob);
+                link.click();
+            }, 'image/jpeg', 0.95);
+        });
+
+        document.getElementById('btn-crop-reset').addEventListener('click', function() {
+            if (cropperInstance) {
+                cropperInstance.destroy();
+                cropperInstance = null;
+            }
+            imageSelector.value = '';
+            cropStudioBox.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
