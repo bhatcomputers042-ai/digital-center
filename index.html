@@ -3,843 +3,1545 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhat Computers Kokernag - CSC & Digital Services</title>
-    <!-- Cropper.js CSS for Image Cropping functionality -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <title>Bhat Computers Kokernag - CSC & Smart Card Crop Tool</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* Base Themes (Black & Gold Palette) */
         :root {
-            --dark-bg: #111111;
-            --card-bg: #1c1c1c;
-            --gold: #d4af37;
-            --gold-hover: #f3e5ab;
-            --text-light: #ffffff;
-            --text-muted: #aaaaaa;
+            --primary-gold: #D4AF37;
+            --dark-gold: #AA7C11;
+            --light-gold: #F3E5AB;
+            --black-bg: #121212;
+            --dark-gray: #1E1E1E;
+            --light-gray: #2D2D2D;
+            --text-light: #F5F5F5;
+            --text-muted: #B3B3B3;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--black-bg);
             color: var(--text-light);
             line-height: 1.6;
         }
 
-        /* Header / Navigation */
         header {
-            background-color: #000000;
-            border-bottom: 2px solid var(--gold);
-            padding: 20px;
+            background-color: rgba(18, 18, 18, 0.95);
+            border-bottom: 2px solid var(--primary-gold);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
-        .header-container {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            color: var(--primary-gold);
+            font-size: 2rem;
         }
 
         .logo h1 {
-            color: var(--gold);
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 700;
             letter-spacing: 1px;
+            background: linear-gradient(45deg, #FFF, var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .logo p {
-            color: var(--text-muted);
-            font-size: 12px;
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--primary-gold);
             text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-top: 2px;
         }
 
         .contact-btn {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
             color: #000;
-            text-decoration: none;
             padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: background 0.3s;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
         }
 
         .contact-btn:hover {
-            background: var(--gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?auto=format&fit=crop&w=1200&q=80') center/cover;
-            padding: 80px 20px;
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=1200&q=80') center/cover;
+            padding: 60px 20px;
             text-align: center;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .hero h2 {
-            font-size: 36px;
-            color: #fff;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #FFF;
         }
 
         .hero h2 span {
-            color: var(--gold);
+            color: var(--primary-gold);
         }
 
         .hero p {
+            font-size: 1.1rem;
             color: var(--text-muted);
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
+            margin-bottom: 30px;
         }
 
-        /* Search Bar Section */
+        .main-layout {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .tool-wrapper {
+            background: linear-gradient(145deg, var(--dark-gray), #151515);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .tool-title {
+            font-size: 1.6rem;
+            color: #FFF;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 15px;
+        }
+
+        .tool-title i {
+            color: var(--primary-gold);
+        }
+
+        .tool-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .tool-select, .tool-input, .file-label-btn {
+            background-color: var(--light-gray);
+            border: 1px solid #444;
+            color: #FFF;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .tool-select:focus, .tool-input:focus {
+            border-color: var(--primary-gold);
+        }
+
+        .file-label-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--light-gray), #222);
+            border: 1px dashed var(--primary-gold);
+            cursor: pointer;
+        }
+
+        .file-label-btn:hover {
+            background: #333;
+        }
+
+        .rotate-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-rotate {
+            flex: 1;
+            background-color: var(--light-gray);
+            border: 1px solid #444;
+            color: #FFF;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-rotate:hover {
+            background-color: #333;
+            border-color: var(--primary-gold);
+        }
+
+        .manual-size-inputs {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px dashed #444;
+        }
+
+        .manual-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .manual-btn-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        .step-btn {
+            background-color: var(--light-gray);
+            color: white;
+            border: 1px solid #555;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .step-btn:hover {
+            background-color: var(--primary-gold);
+            color: black;
+        }
+
+        .workspace-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            background-color: #0d0d0d;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid var(--light-gray);
+            position: relative;
+            min-height: 250px;
+            justify-content: center;
+        }
+
+        .canvas-box {
+            position: relative;
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        canvas {
+            max-width: 100%;
+            border: 1px dashed #555;
+            display: block;
+            background-color: #1a1a1a;
+        }
+
+        .tool-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset {
+            background-color: #333;
+            color: #FFF;
+            border: 1px solid #555;
+        }
+
+        .btn-reset:hover {
+            background-color: #444;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #000;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hd-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--light-gray);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+
+        .hd-toggle input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-gold);
+        }
+
+        .suite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .suite-card {
+            background: #1c1c1c;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .suite-card h4 {
+            color: var(--primary-gold);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .compress-range-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .compress-range-row input[type="range"] {
+            flex: 1;
+            accent-color: var(--primary-gold);
+        }
+
+        .file-status-text {
+            font-size: 0.8rem;
+            color: var(--primary-gold);
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .split-join-box {
+            border-top: 1px solid #333;
+            margin-top: 12px;
+            padding-top: 12px;
+        }
+
+        .services-section {
+            margin-top: 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h3 {
+            font-size: 2rem;
+            color: #FFF;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-gold);
+        }
+
         .search-container {
             max-width: 500px;
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
             position: relative;
         }
 
         .search-container input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 15px 20px 15px 45px;
+            background-color: var(--dark-gray);
+            border: 1px solid var(--light-gray);
             border-radius: 30px;
-            border: 2px solid var(--gold);
-            background: #000;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
+            color: #FFF;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        /* Tools Main Section Layout */
-        .tools-wrapper {
-            max-width: 800px;
-            margin: 40px auto 0 auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .tool-container {
-            background: var(--card-bg);
-            border: 1px solid #2d2d2d;
-            border-left: 4px solid var(--gold);
-            padding: 30px;
-            border-radius: 8px;
-        }
-
-        .tool-container h3 {
-            color: var(--gold);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tool-desc {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .custom-file-wrapper {
-            margin: 15px 0;
-            padding: 20px;
-            border: 2px dashed var(--gold);
-            border-radius: 6px;
-            text-align: center;
-            background: #111;
-        }
-
-        .custom-file-wrapper input[type="file"] {
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        /* PDF Layout Specific Styles */
-        #status {
-            font-weight: bold;
-            color: var(--gold);
-            margin: 10px 0;
-        }
-
-        .audio-controls {
-            display: none;
-            background: #111;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 20px 0;
-            border: 1px solid #2d2d2d;
-        }
-
-        #output {
-            white-space: pre-wrap;
-            background: #050505;
-            color: #ecf0f1;
-            padding: 20px;
-            border-radius: 6px;
-            max-height: 250px;
-            overflow-y: auto;
-            font-family: 'Courier New', Courier, monospace;
-            border: 1px solid #2d2d2d;
-            display: none;
-            margin-top: 15px;
-        }
-
-        /* UI Action Buttons Group */
-        .action-btn {
-            background: var(--gold);
-            color: #000;
-            border: none;
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            transition: background 0.2s;
-        }
-
-        .action-btn:hover {
-            background: var(--gold-hover);
-        }
-
-        .action-btn.btn-danger {
-            background: #e74c3c;
-            color: #fff;
-        }
-
-        .action-btn.btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .action-btn.btn-secondary {
-            background: #555;
-            color: #fff;
-        }
-
-        .action-btn.btn-secondary:hover {
-            background: #777;
-        }
-
-        /* Image Auto Crop Studio Area Layout */
-        .crop-workspace {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .cropper-wrapper-box {
-            max-height: 450px;
-            background: #111;
-            border: 1px solid #2d2d2d;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .cropper-wrapper-box img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .aspect-ratio-selector {
-            margin-bottom: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .aspect-ratio-selector label {
-            font-size: 14px;
-            color: var(--text-light);
-            font-weight: bold;
-        }
-
-        .ratio-chip {
-            background: #252525;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-
-        .ratio-chip.active, .ratio-chip:hover {
-            background: var(--gold);
-            color: #000;
-            border-color: var(--gold);
-        }
-
-        /* Services Grid Layout */
-        .services-section {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .section-title h3 {
-            font-size: 28px;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-title p {
+        .search-container i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--text-muted);
         }
 
-        .grid {
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
         }
 
-        .card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid #2d2d2d;
-            border-radius: 8px;
+        .service-box {
+            background: linear-gradient(145deg, var(--dark-gray), #171717);
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
             padding: 25px;
-            height: 100%;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .card-link:hover .card {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
-            cursor: pointer;
+        .service-box:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-gold);
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--gold);
-        }
-
-        .card-icon {
-            font-size: 30px;
-            margin-bottom: 15px;
-        }
-
-        .card h4 {
-            color: #fff;
-            font-size: 18px;
+        .service-top h5 {
+            font-size: 1.25rem;
+            color: #FFF;
             margin-bottom: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            pointer-events: none;
+            gap: 10px;
         }
 
-        .card h4::after {
-            content: '➔';
-            font-size: 14px;
-            color: var(--gold);
-            opacity: 0.5;
-            transition: opacity 0.3s, transform 0.3s;
+        .service-top h5 i {
+            color: var(--primary-gold);
         }
 
-        .card-link:hover .card h4::after {
-            opacity: 1;
-            transform: translateX(3px);
-        }
-
-        .card p {
+        .service-top p {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
 
-        /* Footer / Contact Details */
+        .link-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .portal-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--light-gray);
+            color: var(--text-light);
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-left: 3px solid var(--primary-gold);
+            transition: all 0.2s ease;
+        }
+
+        .portal-link:hover {
+            background-color: var(--primary-gold);
+            color: #000;
+        }
+
+        .notice-banner {
+            background-color: var(--dark-gray);
+            border: 1px dashed var(--primary-gold);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .notice-banner i {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+        }
+
+        /* --- NEW CONTACT & FEEDBACK SPLIT COMPONENT --- */
+        .contact-feedback-section {
+            background: linear-gradient(145deg, var(--dark-gray), #151515);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-top: 40px;
+        }
+
+        .form-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .form-layout-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .contact-info-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-gold);
+        }
+
+        .info-card i {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+        }
+
+        .info-card h6 {
+            font-size: 1rem;
+            color: #FFF;
+            margin-bottom: 2px;
+        }
+
+        .info-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-row-twin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row-twin {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-field label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-input-element {
+            background-color: var(--light-gray);
+            border: 1px solid #444;
+            color: #FFF;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input-element:focus {
+            border-color: var(--primary-gold);
+        }
+
+        textarea.form-input-element {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit-form {
+            background: linear-gradient(135deg, var(--primary-gold), var(--dark-gold));
+            color: #000;
+            font-weight: 700;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-form:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
         footer {
-            background-color: #000;
-            border-top: 2px solid var(--gold);
+            background-color: #0A0A0A;
+            border-top: 1px solid var(--light-gray);
             padding: 40px 20px;
             text-align: center;
             margin-top: 80px;
         }
 
-        .footer-info {
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-        }
-
-        .footer-info h4 {
-            color: var(--gold);
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-
-        .footer-info p {
+        .footer-content p {
             color: var(--text-muted);
-            margin-bottom: 5px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
         }
 
-        .whatsapp-link {
-            display: inline-block;
-            margin-top: 15px;
-            background: #25d366;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: opacity 0.3s;
-        }
-
-        .whatsapp-link:hover {
-            opacity: 0.9;
-        }
-
-        .copyright {
-            font-size: 12px;
-            color: #555;
-            margin-top: 30px;
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
-    <!-- Include PDF.js and Cropper.js CDNs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Navigation Header -->
     <header>
-        <div class="header-container">
+        <div class="nav-container">
             <div class="logo">
-                <h1>BHAT COMPUTERS</h1>
-                <p>Kokernag • Digital Service Centre</p>
+                <i class="fa-solid fa-laptop-code"></i>
+                <div>
+                    <h1>BHAT COMPUTERS KOKERNAG</h1>
+                    <div class="logo-subtitle">CSC Portal Hub & Intelligent Document Suite</div>
+                </div>
             </div>
-            <a href="tel:+917780980095" class="contact-btn">📞 Call: 7780980095</a>
+            <a href="tel:+917780980095" class="contact-btn">
+                <i class="fa-solid fa-phone"></i> Call 7780980095
+            </a>
         </div>
     </header>
 
     <!-- Hero Showcase Section -->
     <section class="hero">
-        <h2>Your Trusted <span>CSC & IT Solutions</span> Partner</h2>
-        <p>Click on any service card below to instantly message or consult with us via WhatsApp.</p>
-        
-        <!-- Live Instant Search Bar -->
-        <div class="search-container">
-            <input type="text" id="service-search" placeholder="Search for a service (e.g., Ayushman, PAN, Passport)..." onkeyup="filterServices()">
+        <div class="hero-content">
+            <h2>CSC Services & <span>Smart Card PDF Cropping</span> Engine</h2>
+            <p>Crop identity documents to true physical wallet sizes, convert images, combine multiple files, or break down PDFs instantly.</p>
         </div>
     </section>
 
-    <!-- Interactive Tools Central Control Engine Area -->
-    <div class="tools-wrapper">
+    <!-- Main Workspace Block -->
+    <main class="main-layout">
         
-        <!-- MODULE A: Online PDF Document Text Reader -->
-        <section class="tool-container">
-            <h3>📄 Online PDF Document Text Reader</h3>
-            <p class="tool-desc">Upload any local PDF form or document to read its text content dynamically or have it spoken out loud.</p>
-            
-            <div class="custom-file-wrapper">
-                <input type="file" id="file-selector" accept=".pdf">
+        <!-- INTERACTIVE CARD CROPPING TOOL -->
+        <div class="tool-wrapper">
+            <div class="tool-title">
+                <i class="fa-solid fa-crop-simple"></i>
+                <span>Identity Card Smart Crop & Enhanced Print Engine</span>
             </div>
 
-            <div id="status">Ready.</div>
-
-            <!-- Embedded Audio Player Panel -->
-            <div class="audio-controls" id="tts-panel">
-                <button id="btn-play" class="action-btn">▶ Speak / Resume</button>
-                <button id="btn-pause" class="action-btn">⏸ Pause</button>
-                <button id="btn-stop" class="action-btn btn-danger">⏹ Stop</button>
-                <button id="btn-reset" class="action-btn btn-secondary">🔄 Reset Reader</button>
-                <div id="audio-status" style="margin-top: 10px; font-size: 14px; color: var(--text-muted); font-style: italic;">Audio Status: Idle</div>
-            </div>
-
-            <div id="output"></div>
-        </section>
-
-        <!-- MODULE B: Smart JPG Auto Crop Studio -->
-        <section class="tool-container">
-            <h3>🖼️ Smart JPG Auto Crop & Photo Resizer Studio</h3>
-            <p class="tool-desc">Upload a photo to automatically align and crop it into standard sizes like Passport Photo, Stamp Size, or Custom Square forms.</p>
-            
-            <div class="custom-file-wrapper">
-                <input type="file" id="image-selector" accept="image/jpeg, image/jpg, image/png">
-            </div>
-
-            <!-- Workspace Layout Engine -->
-            <div class="crop-workspace" id="crop-studio-box">
-                <div class="aspect-ratio-selector">
-                    <label>Select Template Layout Layout:</label>
-                    <button class="ratio-chip active" onclick="changeCropRatio(3.5/4.5, this)">📸 Passport Size (3.5 x 4.5 cm)</button>
-                    <button class="ratio-chip" onclick="changeCropRatio(2/2.5, this)">🎟️ Stamp Size (2 x 2.5 cm)</button>
-                    <button class="ratio-chip" onclick="changeCropRatio(1, this)">⬜ Square Crop (1:1)</button>
-                    <button class="ratio-chip" onclick="changeCropRatio(NaN, this)">📐 Free Crop Aspect</button>
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label>Upload File (Image Only)</label>
+                    <label class="file-label-btn" for="fileInput">
+                        <i class="fa-solid fa-file-arrow-up"></i> Choose Image
+                    </label>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleFileLoad(event)">
                 </div>
 
-                <div class="cropper-wrapper-box">
-                    <img id="image-to-crop" alt="Workspace Source Image View">
+                <div class="control-group">
+                    <label>Orientation Calibration</label>
+                    <div class="rotate-btn-group">
+                        <button class="btn-rotate" onclick="rotateImage(-90)"><i class="fa-solid fa-rotate-left"></i> 90° ↺</button>
+                        <button class="btn-rotate" onclick="rotateImage(90)"><i class="fa-solid fa-rotate-right"></i> 90° ↻</button>
+                    </div>
                 </div>
 
-                <button id="btn-crop-download" class="action-btn">💾 Generate & Download Cropped JPG</button>
-                <button id="btn-crop-reset" class="action-btn btn-secondary">🔄 Cancel / Reset</button>
+                <div class="control-group">
+                    <label>Card Size Profile Mode</label>
+                    <select id="sizeMode" class="tool-select" onchange="toggleSizeLayout()">
+                        <option value="auto">Auto Standard (CR-80 Wallet Layout)</option>
+                        <option value="manual">Adjust Manually (Custom Parameters)</option>
+                    </select>
+                </div>
+
+                <div class="control-group manual-size-inputs" id="manualInputsBox">
+                    <label>Manual Frame Sizing Controls (mm)</label>
+                    <div class="manual-input-row">
+                        <span style="font-size:0.8rem; width:50px;">Width:</span>
+                        <input type="number" id="customWidthMm" value="86" class="tool-input" style="padding:6px; width:70px;" oninput="applyManualMm()">
+                        <div class="manual-btn-group">
+                            <button class="step-btn" onclick="stepDimension('customWidthMm', -1)">-</button>
+                            <button class="step-btn" onclick="stepDimension('customWidthMm', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="manual-input-row">
+                        <span style="font-size:0.8rem; width:50px;">Height:</span>
+                        <input type="number" id="customHeightMm" value="54" class="tool-input" style="padding:6px; width:70px;" oninput="applyManualMm()">
+                        <div class="manual-btn-group">
+                            <button class="step-btn" onclick="stepDimension('customHeightMm', -1)">-</button>
+                            <button class="step-btn" onclick="stepDimension('customHeightMm', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Image Enhancer Engine</label>
+                    <label class="hd-toggle">
+                        <input type="checkbox" id="hdEnhancer" onchange="processRenderLayer()">
+                        <span>Convert Low to High Quality HD</span>
+                    </label>
+                </div>
             </div>
-        </section>
 
-    </div>
+            <div class="workspace-container" id="workspaceContainer">
+                <p id="placeholderText" style="color: var(--text-muted); text-align: center;"><i class="fa-solid fa-images fa-2x" style="margin-bottom:10px; display:block; color:var(--primary-gold);"></i>Load image above to initiate crop adjustment markers</p>
+                <div class="canvas-box">
+                    <canvas id="cropCanvas"></canvas>
+                </div>
+            </div>
 
-    <!-- Services Grid Display Grid Section -->
-    <section class="services-section">
-        <div class="section-title">
-            <h3>Our Premium Digital Services</h3>
-            <p>Click any card to apply or inquire directly.</p>
+            <div class="tool-actions">
+                <button class="btn btn-reset" onclick="resetCropTool()"><i class="fa-solid fa-rotate-left"></i> Reset Work</button>
+                <button class="btn btn-download" onclick="downloadCroppedCard()"><i class="fa-solid fa-cloud-arrow-down"></i> Download Print Ready Card</button>
+            </div>
         </div>
 
-        <div class="grid" id="services-grid">
-            
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20apply%20for%20a%20PAN%20Card%20service." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">💳</div>
-                    <h4>PAN Card Services</h4>
-                    <p>New PAN Card registration, corrections, links to Aadhaar, and instant e-PAN generation.</p>
-                </div>
-            </a>
+        <!-- PORTAL DOCUMENT UTILITY SUITE (CONVERT, COMPRESS, SPLIT & JOIN) -->
+        <div class="tool-wrapper">
+            <div class="tool-title">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Portal Document Utility Suite (Convert, Compress, Split & Join Engine)</span>
+            </div>
 
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20assistance%20with%20Ayushman%20Bharat%20Golden%20Card." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🏥</div>
-                    <h4>Ayushman Bharat</h4>
-                    <p>Apply for and print PM-JAY Golden health cards to enjoy cashless health benefits.</p>
+            <div class="suite-grid">
+                <!-- PDF to Image Card -->
+                <div class="suite-card">
+                    <div>
+                        <h4><i class="fa-solid fa-file-pdf"></i> PDF to JPG Converter</h4>
+                        <div class="control-group" style="margin-bottom: 12px;">
+                            <label>Select PDF Document</label>
+                            <input type="file" id="pdfSuiteInput" accept="application/pdf" class="tool-input" onchange="processSuitePDF()">
+                            <div id="pdfStatus" class="file-status-text"></div>
+                        </div>
+                        <div class="control-group">
+                            <label>Target Quality Compression</label>
+                            <div class="compress-range-row">
+                                <input type="range" id="pdfQualitySlider" min="0.1" max="1.0" step="0.05" value="0.8">
+                                <span id="pdfQualityVal">80%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-download" style="width:100%; margin-top:15px; justify-content:center;" onclick="downloadPdfAsJpg()">
+                        <i class="fa-solid fa-file-image"></i> Convert to JPG
+                    </button>
                 </div>
-            </a>
 
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20register/update%20my%20PM%20Kisan%20account." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🌾</div>
-                    <h4>PM Kisan Registry</h4>
-                    <p>New farmer registrations, e-KYC validation, and installment tracking updates.</p>
+                <!-- Multi-JPG to PDF Card -->
+                <div class="suite-card">
+                    <div>
+                        <h4><i class="fa-solid fa-file-image"></i> Multi-JPG to PDF</h4>
+                        <div class="control-group" style="margin-bottom: 12px;">
+                            <label>Select One or Multiple Images</label>
+                            <input type="file" id="jpgSuiteInput" accept="image/*" class="tool-input" multiple onchange="processSuiteJpg()">
+                            <div id="jpgStatus" class="file-status-text"></div>
+                        </div>
+                        <div class="control-group">
+                            <label>Compress Output Footprint</label>
+                            <div class="compress-range-row">
+                                <input type="range" id="jpgQualitySlider" min="0.1" max="1.0" step="0.05" value="0.75">
+                                <span id="jpgQualityVal">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-download" style="width:100%; margin-top:15px; justify-content:center;" onclick="downloadJpgAsPdf()">
+                        <i class="fa-solid fa-file-pdf"></i> Compile into PDF
+                    </button>
                 </div>
-            </a>
 
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20apply%20for%20or%20renew%20a%20Passport." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">✈️</div>
-                    <h4>Passport Services</h4>
-                    <p>Fresh passport requests, re-issues, documentation assistance, and appointment scheduling.</p>
+                <!-- PDF Splitter & Joiner (Merger) Card -->
+                <div class="suite-card">
+                    <div>
+                        <h4><i class="fa-solid fa-scissors"></i> PDF Split & Join Suite</h4>
+                        
+                        <!-- Split Section -->
+                        <div class="control-group">
+                            <label>1. Split PDF (Extract Page)</label>
+                            <input type="file" id="splitPdfInput" accept="application/pdf" class="tool-input" onchange="loadSplitPdf()">
+                            <div id="splitStatus" class="file-status-text"></div>
+                            <div class="manual-input-row" style="margin-top: 5px; display: none;" id="splitPageRow">
+                                <span style="font-size:0.8rem;">Page Number:</span>
+                                <input type="number" id="extractPageNum" value="1" min="1" class="tool-input" style="padding:4px; width:65px;">
+                                <button class="step-btn" style="padding:4px 10px;" onclick="executePdfSplit()">Extract</button>
+                            </div>
+                        </div>
+
+                        <!-- Join Section -->
+                        <div class="split-join-box" class="control-group">
+                            <label>2. Join PDFs (Merge Files Together)</label>
+                            <input type="file" id="joinPdfInput" accept="application/pdf" class="tool-input" multiple onchange="loadJoinPdfs()">
+                            <div id="joinStatus" class="file-status-text"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-download" id="joinBtn" style="width:100%; margin-top:15px; justify-content:center; display: none;" onclick="executePdfJoin()">
+                        <i class="fa-solid fa-file-circle-plus"></i> Merge & Join PDFs
+                    </button>
                 </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20have%20an%20inquiry%20regarding%20Vahan%20or%20Sarathi%20Driving%20License%20services." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🚗</div>
-                    <h4>Vahan & Sarathi</h4>
-                    <p>Driving License applications, vehicle RC renewals, permit processing, and fee payments.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20do%20a%20Money%20Transfer%20or%20Cash%20Withdrawal." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">💸</div>
-                    <h4>Banking & AEPS</h4>
-                    <p>Aadhaar Enabled Payment System for domestic cash deposits, secure balance checks, and withdrawals.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20need%20to%20apply%20for%20a%20State/Revenue%20Certificate%20(Domicile/Income/Caste)." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">📜</div>
-                    <h4>Revenue Certificates</h4>
-                    <p>Online submission for Domicile, Income, Character, Caste, and Dependent certificates.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20pay%20my%20Utility%20Bills%20(Electricity/Water/Fastag)." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h4>Utility Bill Payments</h4>
-                    <p>Instant clearance of Electricity bills, Water tariffs, Broadband accounts, and Fastag recharges.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20have%20an%20issue%20or%20new%20application%20for%20a%20Voter%20ID." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🗳️</div>
-                    <h4>Voter ID Services</h4>
-                    <p>Registration for new voters, corrections, card downloads, and linking voter IDs.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20apply%20for%20a%20Labour%20Card%20or%20e-Shram." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🛠️</div>
-                    <h4>Labour Card & e-Shram</h4>
-                    <p>New registration for construction workers, e-Shram setup, and state benefit renewals.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20want%20to%20submit%20a%20Scholarship%20or%20Recruitment%20Job%20Form." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🎓</div>
-                    <h4>Scholarships & Jobs</h4>
-                    <p>Submission of academic scholarship portfolios and state/central employment application forms.</p>
-                </div>
-            </a>
-
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I'm%20inquiring%20about%20Printing,%20Scanning,%20or%20Web%20Design%20solutions." target="_blank" class="card-link">
-                <div class="card">
-                    <div class="card-icon">🖨️</div>
-                    <h4>Printing & Web Solutions</h4>
-                    <p>High-speed printing, document scanning, digital graphics consultation, and basic layout services.</p>
-                </div>
-            </a>
-
+            </div>
         </div>
-    </section>
 
-    <!-- Footer Block -->
+        <!-- SERVICES PORTAL BLOCK -->
+        <div class="services-section">
+            <div class="section-header">
+                <h3>Our Digital Portal Hub</h3>
+            </div>
+
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="serviceSearch" onkeyup="filterServices()" placeholder="Search operational hubs (e.g., JanSugam, Revenue, PAN, Passport, Voter)...">
+            </div>
+
+            <div class="notice-banner">
+                <i class="fa-solid fa-circle-info"></i>
+                <p><strong>Note to Visitors:</strong> Direct secure link pathways are available below to process applications, track government filings, or verify status frameworks immediately.</p>
+            </div>
+
+            <div class="services-grid" id="servicesGrid">
+                
+                <!-- JanSugam -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-users-gear"></i> JanSugam Portal</h5>
+                        <p>Single window access to multiple citizen-centric schemes, quick public grievance registrations, and real-time welfare program processing tracking.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://jansugam.jk.gov.in/" target="_blank" class="portal-link">JanSugam JK <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- JK Revenue / Zamin Sudhar -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-map-location-dot"></i> JK Revenue (Zamin Sudhar)</h5>
+                        <p>Aapki Zameen Aapki Nigrani. Access digitized land records, search land parcels, view mutations, and download formal Land Passbooks online.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://landrecords.jk.gov.in/" target="_blank" class="portal-link">JK Land Records Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- e-UNNAT Platform -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-gavel"></i> e-UNNAT J&K</h5>
+                        <p>Unified Integrated Accessible Transparent gateway. Apply online for Domicile, Income, Character, Category, and Dependent certificates securely.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://eunnat.jk.gov.in/" target="_blank" class="portal-link">e-UNNAT Gateway <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- PAN Card Services -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-id-card"></i> Permanent Account Number (PAN)</h5>
+                        <p>File allocations for brand new PAN registration cards, make historical text corrections, update data fields, or request reprint allocations instantly.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://www.pan.utiitsl.com/" target="_blank" class="portal-link">UTIITSL Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <a href="https://www.protean-tinpan.com/" target="_blank" class="portal-link">Protean (NSDL) Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Digital Seva CSC -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-network-wired"></i> Digital Seva CSC Network</h5>
+                        <p>Central authorization dashboard connecting authorized operator log-ins to thousands of G2C and B2C digital packages natively.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://digitalseva.csc.gov.in/" target="_blank" class="portal-link">Digital Seva Login <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Passport Seva -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-passport"></i> Passport Seva Kendra</h5>
+                        <p>Schedule regional registration slots, process file data pipelines for fresh or renewal passports, and trace real-time tracking logs effortlessly.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://www.passportindia.gov.in/" target="_blank" class="portal-link">Passport Seva India <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Election / Voter ID -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-check-to-slot"></i> Election Commission (Voter ID)</h5>
+                        <p>Process fresh voter identification requests, search database registries, transfer constituent fields, or fix photographic profiles online.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://voters.eci.gov.in/" target="_blank" class="portal-link">ECI Voters Service Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Ayushman Bharat (PM-JAY) -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-heart-pulse"></i> Ayushman Bharat Sehat Card</h5>
+                        <p>Generate, verify, download or register families under the cashless health insurance grid ensuring health coverage protection networks.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://setu.pmjay.gov.in/" target="_blank" class="portal-link">PMJAY Bis Setu Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Transport Services (Vahan & Sarathi) -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-car"></i> Parivahan (Vahan & Sarathi)</h5>
+                        <p>Apply for Learner/Driving licenses, book slot trials, pay vehicle fitness dues, check structural RC status parameters, and file taxes.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://parivahan.gov.in/" target="_blank" class="portal-link">Parivahan Sewa Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- JK Police Citizen Portal -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-shield-halved"></i> J&K Police Citizen Services</h5>
+                        <p>File online complaints, request character or tenant verifications, download domestic help clearances, or check active e-FIR records smoothly.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://jkpoliceeservices.gov.in/" target="_blank" class="portal-link">JK Police Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- JK Tenders (e-Procurement) -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-file-signature"></i> J&K e-Procurement (Tenders)</h5>
+                        <p>Official infrastructure administrative dashboard tracking public bidding schedules, structural tenders, and official public work assignments.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://jktenders.gov.in/" target="_blank" class="portal-link">JK Tenders Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <!-- Labor & Employment Portal -->
+                <div class="service-box">
+                    <div class="service-top">
+                        <h5><i class="fa-solid fa-helmet-safety"></i> J&K Shram Suvidha (Labor Portal)</h5>
+                        <p>Manage artisan registration tracks, labor licensing profiles, labor card generation steps, and active department assistance grants.</p>
+                    </div>
+                    <div class="link-group">
+                        <a href="https://shramsuvidha.gov.in/" target="_blank" class="portal-link">Shram Suvidha India <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT & FEEDBACK FORM COMPONENT -->
+        <div class="contact-feedback-section">
+            <div class="tool-title" style="border: none; margin-bottom: 5px;">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>Contact & Feedback Center</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; border-bottom: 1px solid var(--light-gray); padding-bottom: 15px;">
+                Have a question or want to share feedback? Drop us a message below and it will reach our team immediately.
+            </p>
+
+            <div class="form-layout-grid">
+                <!-- Left Hand Details Column -->
+                <div class="contact-info-panel">
+                    <div class="info-card">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <h6>Our Workspace Location</h6>
+                            <p>Near BDO Office, Kokernag, Anantnag, J&K</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        <div>
+                            <h6>Direct Help Support</h6>
+                            <p>+91 7780980095</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fa-solid fa-at"></i>
+                        <div>
+                            <h6>Official Email Address</h6>
+                            <p>bhatcomputers042@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hand Operational Form (Formspree Integrated) -->
+                <form class="feedback-form" action="https://formspree.io/f/bhatcomputers042@gmail.com" method="POST">
+                    <div class="form-row-twin">
+                        <div class="form-field">
+                            <label for="clientName">Your Name *</label>
+                            <input type="text" id="clientName" name="Full Name" class="form-input-element" required placeholder="John Doe">
+                        </div>
+                        <div class="form-field">
+                            <label for="clientPhone">Phone Number</label>
+                            <input type="tel" id="clientPhone" name="Phone Number" class="form-input-element" placeholder="+91 XXXXX XXXXX">
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="clientEmail">Email Address *</label>
+                        <input type="email" id="clientEmail" name="_replyto" class="form-input-element" required placeholder="name@example.com">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="msgSubject">Subject / Query Topic *</label>
+                        <input type="text" id="msgSubject" name="Subject" class="form-input-element" required placeholder="e.g., Smart Card Crop Issue, Service Query">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="clientMessage">Detailed Message / Feedback *</label>
+                        <textarea id="clientMessage" name="Message Detail" class="form-input-element" required placeholder="Write your message here..."></textarea>
+                    </div>
+
+                    <!-- Honeypot anti-spam protection module -->
+                    <input type="text" name="_gotcha" style="display:none">
+
+                    <button type="submit" class="btn-submit-form">
+                        <i class="fa-solid fa-paper-plane"></i> Send Secure Message
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
     <footer>
-        <div class="footer-info">
-            <h4>BHAT COMPUTERS KOKERNAG</h4>
-            <p><strong>Proprietor:</strong> Shabir Ahmad Bhat</p>
-            <p><strong>Contact Hotline:</strong> +91 7780980095</p>
-            <p><strong>Location:</strong> Main Market Kokernag, Jammu & Kashmir</p>
-            
-            <a href="https://wa.me/917780980095?text=Hello%20Bhat%20Computers,%20I%20am%20interested%20in%20your%20services." target="_blank" class="whatsapp-link">
-                💬 General WhatsApp Inquiry
-            </a>
-        </div>
-        <div class="copyright">
-            &copy; 2026 Bhat Computers Kokernag. All Rights Reserved. Designed for Maximum Efficiency.
+        <div class="footer-content">
+            <p>&copy; 2026 Bhat Computers Kokernag. All Rights Reserved.</p>
+            <p><strong>Contact:</strong> +91 7780980095 | <strong>Address:</strong> Near BDO Office, Kokernag</p>
         </div>
     </footer>
 
-    <!-- Comprehensive Page Functionality Logic -->
+    <!-- INTERACTIVE ENGINE LOGIC SCRIPTS -->
     <script>
-        /* --- 1. Live Interactive Search Filter --- */
-        function filterServices() {
-            const searchInput = document.getElementById('service-search').value.toLowerCase();
-            const links = document.getElementsByClassName('card-link');
+        // --- PORTAL UTILITY SUITE LOGIC PATHS ---
+        let pdfDocSuite = null;
+        let suiteImageArray = []; 
+        let splitPdfDoc = null;
+        let joinFilesArray = [];
 
-            for (let i = 0; i < links.length; i++) {
-                const title = links[i].getElementsByTagName('h4')[0].innerText.toLowerCase();
-                const text = links[i].getElementsByTagName('p')[0].innerText.toLowerCase();
-                
-                if (title.includes(searchInput) || text.includes(searchInput)) {
-                    links[i].style.display = "";
-                } else {
-                    links[i].style.display = "none";
-                }
-            }
-        }
+        // Sync slider display labels dynamically
+        document.getElementById('pdfQualitySlider').addEventListener('input', (e) => {
+            document.getElementById('pdfQualityVal').innerText = Math.round(e.target.value * 100) + "%";
+        });
+        document.getElementById('jpgQualitySlider').addEventListener('input', (e) => {
+            document.getElementById('jpgQualityVal').innerText = Math.round(e.target.value * 100) + "%";
+        });
 
-        /* --- 2. Client-Side PDF Reader & Audio Setup --- */
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        let pagesArray = []; 
-        const synth = window.speechSynthesis;
-
-        const fileSelector = document.getElementById('file-selector');
-        const statusDiv = document.getElementById('status');
-        const outputDiv = document.getElementById('output');
-        const ttsPanel = document.getElementById('tts-panel');
-        const audioStatusDiv = document.getElementById('audio-status');
-
-        fileSelector.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (!file || file.type !== 'application/pdf') {
-                alert('Please select a valid PDF file.');
-                return;
-            }
-            
-            synth.cancel();
-            audioStatusDiv.innerText = "Audio Status: Idle";
-            statusDiv.innerText = 'Loading PDF...';
-            outputDiv.style.display = 'none';
-            ttsPanel.style.display = 'none';
-            outputDiv.innerText = '';
-            pagesArray = [];
-
-            const fileReader = new FileReader();
+        function processSuitePDF() {
+            let file = document.getElementById('pdfSuiteInput').files[0];
+            if (!file) return;
+            document.getElementById('pdfStatus').innerText = "Loading document architecture...";
+            let fileReader = new FileReader();
             fileReader.onload = function() {
-                const typedarray = new Uint8Array(this.result);
-
-                pdfjsLib.getDocument(typedarray).promise.then(async function(pdf) {
-                    statusDiv.innerText = `Processing... Found ${pdf.numPages} pages.`;
-                    let fullDisplayText = '';
-
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        statusDiv.innerText = `Reading page ${pageNum} of ${pdf.numPages}...`;
-                        
-                        const page = await pdf.getPage(pageNum);
-                        const textContent = await page.getTextContent();
-                        const pageText = textContent.items.map(item => item.str).join(' ').trim();
-                        
-                        if (pageText) {
-                            pagesArray.push({ pageNum: pageNum, text: pageText });
-                            fullDisplayText += `--- Page ${pageNum} ---\n${pageText}\n\n`;
-                        }
-                    }
-
-                    statusDiv.innerText = 'Extraction complete!';
-                    outputDiv.style.display = 'block';
-                    outputDiv.innerText = fullDisplayText;
-                    
-                    if (pagesArray.length > 0) {
-                        ttsPanel.style.display = 'block';
-                    } else {
-                        statusDiv.innerText = 'Extraction complete (No readable plain text discovered).';
-                    }
-
-                }).catch(function(error) {
-                    statusDiv.innerText = 'Error processing your file.';
-                    console.error(error);
+                let typedarray = new Uint8Array(this.result);
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                    pdfDocSuite = pdf;
+                    document.getElementById('pdfStatus').innerText = "✓ PDF Loaded (" + pdf.numPages + " Page/s Ready)";
+                }).catch(err => {
+                    document.getElementById('pdfStatus').innerText = "Error loading PDF data matrix structure.";
                 });
             };
             fileReader.readAsArrayBuffer(file);
-        });
+        }
 
-        function speakPDF() {
-            if (synth.speaking) {
-                if (synth.paused) {
-                    synth.resume();
-                    audioStatusDiv.innerText = "Audio Status: Resumed playback...";
+        function downloadPdfAsJpg() {
+            if(!pdfDocSuite) { alert("Please load a PDF data layer first."); return; }
+            
+            pdfDocSuite.getPage(1).then(function(page) {
+                let viewport = page.getViewport({scale: 2.0});
+                let tempCanvas = document.createElement('canvas');
+                let tCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = viewport.width;
+                tempCanvas.height = viewport.height;
+
+                let renderContext = { canvasContext: tCtx, viewport: viewport };
+                page.render(renderContext).promise.then(function() {
+                    let qualitySetting = parseFloat(document.getElementById('pdfQualitySlider').value);
+                    let downloadLink = document.createElement('a');
+                    downloadLink.download = 'Bhat_Computers_Converted_Document.jpg';
+                    downloadLink.href = tempCanvas.toDataURL('image/jpeg', qualitySetting);
+                    downloadLink.click();
+                });
+            });
+        }
+
+        function processSuiteJpg() {
+            let files = document.getElementById('jpgSuiteInput').files;
+            if (files.length === 0) return;
+            
+            suiteImageArray = []; 
+            document.getElementById('jpgStatus').innerText = "Reading " + files.length + " files...";
+
+            let loadedCount = 0;
+            for(let i=0; i < files.length; i++) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = new Image();
+                    img.onload = function() {
+                        suiteImageArray.push(img);
+                        loadedCount++;
+                        if(loadedCount === files.length) {
+                            document.getElementById('jpgStatus').innerText = "✓ " + files.length + " Image/s Compiled In Queue";
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        function downloadJpgAsPdf() {
+            if(suiteImageArray.length === 0) { alert("Please provide at least one image source configuration layout file."); return; }
+            
+            const { jsPDF } = window.jspdf;
+            let doc = null;
+            let compressionSetting = parseFloat(document.getElementById('jpgQualitySlider').value);
+
+            for (let i = 0; i < suiteImageArray.length; i++) {
+                let currentImg = suiteImageArray[i];
+                let tempCanvas = document.createElement('canvas');
+                let tCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = currentImg.width;
+                tempCanvas.height = currentImg.height;
+                tCtx.drawImage(currentImg, 0, 0);
+
+                let compressedImgData = tempCanvas.toDataURL('image/jpeg', compressionSetting);
+                let orientation = (tempCanvas.width > tempCanvas.height) ? 'l' : 'p';
+
+                if (i === 0) {
+                    doc = new jsPDF(orientation, 'px', [tempCanvas.width, tempCanvas.height]);
+                } else {
+                    doc.addPage([tempCanvas.width, tempCanvas.height], orientation);
                 }
+                doc.addImage(compressedImgData, 'JPEG', 0, 0, tempCanvas.width, tempCanvas.height);
+            }
+            doc.save('Bhat_Computers_Optimized_Document.pdf');
+        }
+
+        // --- SPLIT & JOIN UTILITY LOGIC PATHS ---
+        function loadSplitPdf() {
+            let file = document.getElementById('splitPdfInput').files[0];
+            if (!file) return;
+            document.getElementById('splitStatus').innerText = "Analyzing file maps...";
+            let fileReader = new FileReader();
+            fileReader.onload = function() {
+                let typedarray = new Uint8Array(this.result);
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                    splitPdfDoc = pdf;
+                    document.getElementById('splitStatus').innerText = "✓ Loaded (" + pdf.numPages + " pages)";
+                    let inputNum = document.getElementById('extractPageNum');
+                    inputNum.max = pdf.numPages;
+                    inputNum.value = 1;
+                    document.getElementById('splitPageRow').style.display = "flex";
+                }).catch(err => {
+                    document.getElementById('splitStatus').innerText = "Invalid structure format.";
+                });
+            };
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        function executePdfSplit() {
+            if (!splitPdfDoc) return;
+            let pageNum = parseInt(document.getElementById('extractPageNum').value);
+            if (pageNum < 1 || pageNum > splitPdfDoc.numPages) {
+                alert("Invalid page target index selected.");
                 return;
             }
-            if (pagesArray.length === 0) return;
-            audioStatusDiv.innerText = "Audio Status: Preparing speech manager...";
 
-            pagesArray.forEach((pageObj, index) => {
-                const utterance = new SpeechSynthesisUtterance(pageObj.text);
-                
-                utterance.onstart = function() {
-                    audioStatusDiv.innerText = `🔊 Reading: Page ${pageObj.pageNum} of ${pagesArray[pagesArray.length - 1].pageNum}`;
-                };
+            splitPdfDoc.getPage(pageNum).then(function(page) {
+                let viewport = page.getViewport({scale: 2.0});
+                let tempCanvas = document.createElement('canvas');
+                let tCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = viewport.width;
+                tempCanvas.height = viewport.height;
 
-                if (index === pagesArray.length - 1) {
-                    utterance.onend = function() {
-                        audioStatusDiv.innerText = "Audio Status: Completed reading document.";
-                    };
-                }
-                synth.speak(utterance);
+                let renderContext = { canvasContext: tCtx, viewport: viewport };
+                page.render(renderContext).promise.then(function() {
+                    let imgData = tempCanvas.toDataURL('image/jpeg', 0.9);
+                    const { jsPDF } = window.jspdf;
+                    let orientation = (tempCanvas.width > tempCanvas.height) ? 'l' : 'p';
+                    let doc = new jsPDF(orientation, 'px', [tempCanvas.width, tempCanvas.height]);
+                    doc.addImage(imgData, 'JPEG', 0, 0, tempCanvas.width, tempCanvas.height);
+                    doc.save('Bhat_Computers_Split_Page_' + pageNum + '.pdf');
+                });
             });
         }
 
-        document.getElementById('btn-play').addEventListener('click', speakPDF);
-        document.getElementById('btn-pause').addEventListener('click', () => {
-            if (synth.speaking && !synth.paused) {
-                synth.pause();
-                audioStatusDiv.innerText = "Audio Status: Paused";
-            }
-        });
-        document.getElementById('btn-stop').addEventListener('click', () => {
-            synth.cancel();
-            audioStatusDiv.innerText = "Audio Status: Stopped";
-        });
-        document.getElementById('btn-reset').addEventListener('click', () => {
-            synth.cancel();
-            pagesArray = [];
-            fileSelector.value = ''; 
-            statusDiv.innerText = 'Ready.';
-            audioStatusDiv.innerText = 'Audio Status: Idle';
-            outputDiv.innerText = '';
-            outputDiv.style.display = 'none';
-            ttsPanel.style.display = 'none';
-        });
+        function loadJoinPdfs() {
+            let files = document.getElementById('joinPdfInput').files;
+            if (files.length === 0) return;
+            joinFilesArray = Array.from(files);
+            document.getElementById('joinStatus').innerText = "✓ " + files.length + " PDFs targeted for join sequencing.";
+            document.getElementById('joinBtn').style.display = "inline-flex";
+        }
 
-        /* --- 3. Smart JPG Auto Crop Studio Core Logic Engine --- */
-        let cropperInstance = null;
-        const imageSelector = document.getElementById('image-selector');
-        const cropStudioBox = document.getElementById('crop-studio-box');
-        const imageToCrop = document.getElementById('image-to-crop');
+        async function executePdfJoin() {
+            if (joinFilesArray.length === 0) return;
+            document.getElementById('joinStatus').innerText = "Merging layer sequences. Please wait...";
+            
+            const { jsPDF } = window.jspdf;
+            let masterDoc = null;
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-        imageSelector.addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (files && files.length > 0) {
-                const file = files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    if (cropperInstance) {
-                        cropperInstance.destroy();
+            for (let f = 0; f < joinFilesArray.length; f++) {
+                let fileBuffer = await joinFilesArray[f].arrayBuffer();
+                let typedarray = new Uint8Array(fileBuffer);
+                let pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+                for (let p = 1; p <= pdf.numPages; p++) {
+                    let page = await pdf.getPage(p);
+                    let viewport = page.getViewport({scale: 2.0});
+                    let tempCanvas = document.createElement('canvas');
+                    let tCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
+
+                    await page.render({ canvasContext: tCtx, viewport: viewport }).promise;
+                    let imgData = tempCanvas.toDataURL('image/jpeg', 0.85);
+                    let orientation = (tempCanvas.width > tempCanvas.height) ? 'l' : 'p';
+
+                    if (!masterDoc) {
+                        masterDoc = new jsPDF(orientation, 'px', [tempCanvas.width, tempCanvas.height]);
+                    } else {
+                        masterDoc.addPage([tempCanvas.width, tempCanvas.height], orientation);
                     }
-                    
-                    imageToCrop.src = event.target.result;
-                    cropStudioBox.style.display = 'block';
-                    
-                    // Initialize Cropper Engine with Passport Size (3.5:4.5) as default aspect template
-                    cropperInstance = new Cropper(imageToCrop, {
-                        aspectRatio: 3.5 / 4.5,
-                        viewMode: 1,
-                        background: true,
-                        autoCropArea: 0.9,
-                        responsive: true
-                    });
-                };
-                reader.readAsDataURL(file);
+                    masterDoc.addImage(imgData, 'JPEG', 0, 0, tempCanvas.width, tempCanvas.height);
+                }
             }
-        });
 
-        function changeCropRatio(ratio, element) {
-            if (!cropperInstance) return;
-            
-            cropperInstance.setAspectRatio(ratio);
-            
-            // Toggle Active Element Styles UI Chips
-            const chips = document.querySelectorAll('.ratio-chip');
-            chips.forEach(chip => chip.classList.remove('active'));
-            element.classList.add('active');
+            if (masterDoc) {
+                masterDoc.save('Bhat_Computers_Joined_Document.pdf');
+                document.getElementById('joinStatus').innerText = "✓ Operation Completed Successfully.";
+            } else {
+                document.getElementById('joinStatus').innerText = "An error occurred compiling sequences.";
+            }
         }
 
-        document.getElementById('btn-crop-download').addEventListener('click', function() {
-            if (!cropperInstance) return;
+
+        // --- PRE-EXISTING CARD CROPPING LOGIC ---
+        let canvas = document.getElementById('cropCanvas');
+        let ctx = canvas.getContext('2d');
+        let sourceImg = new Image();
+        let isLoaded = false;
+        let currentRotation = 0;
+
+        let corners = [
+            {x: 30, y: 30, active: false},   
+            {x: 300, y: 30, active: false},  
+            {x: 300, y: 200, active: false}, 
+            {x: 30, y: 200, active: false}   
+        ];
+        let activeCornerIndex = null;
+
+        function toggleSizeLayout() {
+            let mode = document.getElementById('sizeMode').value;
+            let inputsBox = document.getElementById('manualInputsBox');
+            inputsBox.style.display = (mode === 'manual') ? 'flex' : 'none';
             
-            // Generate a high quality canvas array profile output
-            const canvas = cropperInstance.getCroppedCanvas({
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high'
+            if (mode === 'auto' && isLoaded) {
+                corners[0] = {x: 50, y: 50, active: false};
+                corners[1] = {x: canvas.width - 50, y: 50, active: false};
+                corners[2] = {x: canvas.width - 50, y: canvas.height - 50, active: false};
+                corners[3] = {x: 50, y: canvas.height - 50, active: false};
+            } else if (mode === 'manual' && isLoaded) {
+                applyManualMm();
+            }
+            processRenderLayer();
+        }
+
+        function stepDimension(inputId, amount) {
+            let input = document.getElementById(inputId);
+            let val = parseInt(input.value) || 0;
+            input.value = Math.max(10, val + amount);
+            applyManualMm();
+        }
+
+        function applyManualMm() {
+            if (!isLoaded) return;
+            let mmW = parseFloat(document.getElementById('customWidthMm').value) || 86;
+            let mmH = parseFloat(document.getElementById('customHeightMm').value) || 54;
+            let targetPixelWidth = mmW * 4; 
+            let targetPixelHeight = mmH * 4;
+
+            if (targetPixelWidth > canvas.width - 40) {
+                let ratio = (canvas.width - 40) / targetPixelWidth;
+                targetPixelWidth *= ratio;
+                targetPixelHeight *= ratio;
+            }
+
+            let startX = (canvas.width - targetPixelWidth) / 2;
+            let startY = (canvas.height - targetPixelHeight) / 2;
+
+            corners[0] = {x: startX, y: startY, active: false};
+            corners[1] = {x: startX + targetPixelWidth, y: startY, active: false};
+            corners[2] = {x: startX + targetPixelWidth, y: startY + targetPixelHeight, active: false};
+            corners[3] = {x: startX, y: startY + targetPixelHeight, active: false};
+            processRenderLayer();
+        }
+
+        function rotateImage(degrees) {
+            if (!isLoaded) return;
+            currentRotation = (currentRotation + degrees) % 360;
+            if (currentRotation < 0) currentRotation += 360;
+
+            let oldW = canvas.width;
+            let oldH = canvas.height;
+            canvas.width = oldH;
+            canvas.height = oldW;
+
+            corners = corners.map(c => {
+                if (degrees === 90) return { x: oldH - c.y, y: c.x, active: false };
+                else return { x: c.y, y: oldW - c.x, active: false };
             });
+            processRenderLayer();
+        }
+
+        function handleFileLoad(e) {
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                sourceImg.onload = function() {
+                    document.getElementById('placeholderText').style.display = 'none';
+                    currentRotation = 0;
+                    canvas.width = Math.min(window.innerWidth - 80, 600);
+                    let scaleRatio = canvas.width / sourceImg.width;
+                    canvas.height = sourceImg.height * scaleRatio;
+
+                    if (document.getElementById('sizeMode').value === 'manual') applyManualMm();
+                    else {
+                        corners[0] = {x: 50, y: 50, active: false};
+                        corners[1] = {x: canvas.width - 50, y: 50, active: false};
+                        corners[2] = {x: canvas.width - 50, y: canvas.height - 50, active: false};
+                        corners[3] = {x: 50, y: canvas.height - 50, active: false};
+                    }
+                    isLoaded = true;
+                    processRenderLayer();
+                }
+                sourceImg.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        function processRenderLayer() {
+            if (!isLoaded) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate((currentRotation * Math.PI) / 180);
             
-            // Export directly to high-fidelity JPG format link download triggers
-            canvas.toBlob(function(blob) {
-                const link = document.createElement('a');
-                link.download = 'bhat_computers_cropped_' + Date.now() + '.jpg';
-                link.href = URL.createObjectURL(blob);
-                link.click();
-            }, 'image/jpeg', 0.95);
+            if (document.getElementById('hdEnhancer').checked) {
+                ctx.filter = "contrast(1.15) brightness(1.02) saturate(1.1)";
+            }
+
+            if (currentRotation === 90 || currentRotation === 270) {
+                ctx.drawImage(sourceImg, -canvas.height / 2, -canvas.width / 2, canvas.height, canvas.width);
+            } else {
+                ctx.drawImage(sourceImg, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+            }
+            ctx.restore();
+            ctx.filter = "none"; 
+
+            ctx.beginPath();
+            ctx.moveTo(corners[0].x, corners[0].y);
+            for(let i=1; i<4; i++) ctx.lineTo(corners[i].x, corners[i].y);
+            ctx.closePath();
+            ctx.strokeStyle = "#D4AF37";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            corners.forEach(corner => {
+                ctx.beginPath();
+                ctx.arc(corner.x, corner.y, 8, 0, 2 * Math.PI);
+                ctx.fillStyle = "#FFF";
+                ctx.strokeStyle = "#AA7C11";
+                ctx.lineWidth = 2;
+                ctx.fill();
+                ctx.stroke();
+            });
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            if(!isLoaded) return;
+            let rect = canvas.getBoundingClientRect();
+            let mouseX = e.clientX - rect.left;
+            let mouseY = e.clientY - rect.top;
+            for(let i=0; i<corners.length; i++) {
+                if(Math.hypot(corners[i].x - mouseX, corners[i].y - mouseY) < 15) {
+                    activeCornerIndex = i;
+                    break;
+                }
+            }
         });
 
-        document.getElementById('btn-crop-reset').addEventListener('click', function() {
-            if (cropperInstance) {
-                cropperInstance.destroy();
-                cropperInstance = null;
-            }
-            imageSelector.value = '';
-            cropStudioBox.style.display = 'none';
+        canvas.addEventListener('mousemove', (e) => {
+            if(activeCornerIndex === null) return;
+            let rect = canvas.getBoundingClientRect();
+            corners[activeCornerIndex].x = e.clientX - rect.left;
+            corners[activeCornerIndex].y = e.clientY - rect.top;
+            processRenderLayer();
         });
+
+        window.addEventListener('mouseup', () => { activeCornerIndex = null; });
+
+        function downloadCroppedCard() {
+            if (!isLoaded) return;
+            let minX = Math.min(...corners.map(c => c.x));
+            let minY = Math.min(...corners.map(c => c.y));
+            let maxX = Math.max(...corners.map(c => c.x));
+            let maxY = Math.max(...corners.map(c => c.y));
+            let targetW = maxX - minX;
+            let targetH = maxY - minY;
+
+            let outputCanvas = document.createElement('canvas');
+            let oCtx = outputCanvas.getContext('2d');
+            outputCanvas.width = targetW;
+            outputCanvas.height = targetH;
+            
+            outputCanvas.getContext('2d').beginPath();
+            outputCanvas.getContext('2d').moveTo(corners[0].x - minX, corners[0].y - minY);
+            outputCanvas.getContext('2d').lineTo(corners[1].x - minX, corners[1].y - minY);
+            outputCanvas.getContext('2d').lineTo(corners[2].x - minX, corners[2].y - minY);
+            outputCanvas.getContext('2d').lineTo(corners[3].x - minX, corners[3].y - minY);
+            outputCanvas.getContext('2d').closePath();
+            outputCanvas.getContext('2d').clip();
+
+            oCtx.translate(-minX, -minY);
+            oCtx.translate(canvas.width / 2, canvas.height / 2);
+            oCtx.rotate((currentRotation * Math.PI) / 180);
+
+            if (currentRotation === 90 || currentRotation === 270) {
+                oCtx.drawImage(sourceImg, -canvas.height / 2, -canvas.width / 2, canvas.height, canvas.width);
+            } else {
+                oCtx.drawImage(sourceImg, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+            }
+            
+            let downloadLink = document.createElement('a');
+            downloadLink.download = 'Bhat_Computers_Cropped_Card.png';
+            downloadLink.href = outputCanvas.toDataURL('image/png');
+            downloadLink.click();
+        }
+
+        function resetCropTool() {
+            document.getElementById('fileInput').value = "";
+            document.getElementById('placeholderText').style.display = "block";
+            isLoaded = false;
+            currentRotation = 0;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function filterServices() {
+            let input = document.getElementById('serviceSearch').value.toLowerCase();
+            let grid = document.getElementById('servicesGrid');
+            let boxes = grid.getElementsByClassName('service-box');
+            for (let i = 0; i < boxes.length; i++) {
+                let textContent = boxes[i].textContent || boxes[i].innerText;
+                boxes[i].style.display = (textContent.toLowerCase().indexOf(input) > -1) ? "" : "none";
+            }
+        }
     </script>
 </body>
 </html>
