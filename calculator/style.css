@@ -1,0 +1,172 @@
+/* ===========================
+   BHAT COMPUTERS
+   Casio FX-991ES+ Style
+   =========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#d7d7d7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+/* Calculator Body */
+
+.calculator{
+    width:390px;
+    background:#3b3b3b;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.45),
+    inset 0 2px 0 rgba(255,255,255,.15);
+}
+
+/* Brand */
+
+.brand{
+    text-align:center;
+    color:#fff;
+    margin-bottom:12px;
+}
+
+.brand h2{
+    font-size:24px;
+    letter-spacing:1px;
+}
+
+.brand p{
+    margin-top:4px;
+    color:#f4c542;
+    font-size:15px;
+}
+
+/* LCD Display */
+
+.screen{
+    background:#d9e7c6;
+    border:3px solid #666;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:15px;
+    box-shadow:inset 0 0 8px rgba(0,0,0,.25);
+}
+
+#history{
+    height:22px;
+    font-size:14px;
+    color:#555;
+    text-align:right;
+    overflow:hidden;
+}
+
+#display{
+    width:100%;
+    border:none;
+    background:transparent;
+    outline:none;
+    font-size:34px;
+    text-align:right;
+    color:#111;
+    font-weight:bold;
+}
+
+/* Keys Grid */
+
+.keys{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+}
+
+/* Buttons */
+
+.keys button{
+    height:52px;
+    border:none;
+    border-radius:8px;
+    background:#5a5a5a;
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.15s;
+    box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.15),
+    0 3px 5px rgba(0,0,0,.25);
+}
+
+.keys button:hover{
+    transform:translateY(-2px);
+}
+
+.keys button:active{
+    transform:scale(.96);
+}
+
+/* Special Keys */
+
+.yellow{
+    background:#f2c230 !important;
+    color:#000 !important;
+}
+
+.red{
+    background:#c62828 !important;
+}
+
+.equal{
+    background:#1565c0 !important;
+}
+
+#modeBtn{
+    background:#455a64;
+}
+
+#degBtn{
+    background:#00897b;
+}
+
+/* Function Keys */
+
+.keys button:nth-child(n+6):nth-child(-n+15){
+    background:#616161;
+}
+
+/* Number Keys */
+
+.keys button:nth-child(n+16){
+    background:#707070;
+}
+
+/* Responsive */
+
+@media(max-width:420px){
+
+.calculator{
+    width:100%;
+}
+
+.keys button{
+    height:50px;
+    font-size:16px;
+}
+
+#display{
+    font-size:28px;
+}
+
+.brand h2{
+    font-size:20px;
+}
+
+}

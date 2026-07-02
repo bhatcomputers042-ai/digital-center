@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Bhat Computers Scientific Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+
+</head>
+
+<body>
+
+<div class="calculator">
+
+<div class="brand">
+
+<h2>BHAT COMPUTERS</h2>
+
+<p>☎ 7780980095</p>
+
+</div>
+
+<div class="screen">
+
+<div id="history"></div>
+
+<input
+id="display"
+readonly
+value="0">
+
+</div>
+
+<div class="keys">
+
+<button class="yellow">SHIFT</button>
+
+<button class="red">ALPHA</button>
+
+<button id="modeBtn">MODE</button>
+
+<button id="degBtn">DEG</button>
+
+<button onclick="clearAll()">AC</button>
+
+
+
+<button onclick="insert('sin(')">sin</button>
+
+<button onclick="insert('cos(')">cos</button>
+
+<button onclick="insert('tan(')">tan</button>
+
+<button onclick="insert('Math.PI')">π</button>
+
+<button onclick="insert('Math.E')">e</button>
+
+
+
+<button onclick="insert('log(')">log</button>
+
+<button onclick="insert('ln(')">ln</button>
+
+<button onclick="insert('sqrt(')">√</button>
+
+<button onclick="insert('^')">xʸ</button>
+
+<button onclick="insert('%')">%</button>
+
+
+
+<button onclick="insert('7')">7</button>
+
+<button onclick="insert('8')">8</button>
+
+<button onclick="insert('9')">9</button>
+
+<button onclick="insert('/')">÷</button>
+
+<button onclick="backspace()">⌫</button>
+
+
+
+<button onclick="insert('4')">4</button>
+
+<button onclick="insert('5')">5</button>
+
+<button onclick="insert('6')">6</button>
+
+<button onclick="insert('*')">×</button>
+
+<button onclick="insert('(')">(</button>
+
+
+
+<button onclick="insert('1')">1</button>
+
+<button onclick="insert('2')">2</button>
+
+<button onclick="insert('3')">3</button>
+
+<button onclick="insert('-')">−</button>
+
+<button onclick="insert(')')">)</button>
+
+
+
+<button onclick="insert('0')">0</button>
+
+<button onclick="insert('.')">.</button>
+
+<button onclick="calculate()" class="equal">=</button>
+
+<button onclick="insert('+')">+</button>
+
+<button onclick="memoryStore()">MS</button>
+<button onclick="historyPrevious()">▲</button>
+
+<button onclick="historyNext()">▼</button>
+
+<button onclick="insertAns()">Ans</button>
+
+<button onclick="clearHistory()">CLR H</button>
+
+</div>
+
+</div>
+
+<script src="engine.js"></script>
+
+<script src="scientific.js"></script>
+
+<script src="memory.js"></script>
+
+<script src="display.js"></script>
+
+<script src="mode.js"></script>
+
+<script src="history.js"></script>
+
+</body>
+</html>
