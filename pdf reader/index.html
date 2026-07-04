@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhat Computers PDF Reader</title>
 
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header>
+<h1>📄 Bhat Computers PDF Reader</h1>
+<p>7780980095</p>
+</header>
+
+<div id="dropZone">
+📂 Drag & Drop PDF Here
+</div>
+
+<div class="toolbar">
+
+<label>
+📂 Open PDF
+<input type="file" id="fileInput" accept=".pdf">
+</label>
+
+<button onclick="zoomIn()">➕ Zoom In</button>
+
+<button onclick="zoomOut()">➖ Zoom Out</button>
+
+<button onclick="downloadPDF()">⬇ Download</button>
+
+<button onclick="printPDF()">🖨 Print</button>
+
+<button onclick="fullscreen()">⛶ Full Screen</button>
+
+</div>
+
+<div class="viewer">
+<iframe id="pdfViewer"></iframe>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
