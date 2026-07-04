@@ -1,0 +1,52 @@
+# BHAT COMPUTERS PROPRIETARY COMMERCIAL LICENSE
+
+**Copyright © 2026 Bhat Computers. All Rights Reserved.**
+
+This software, including but not limited to its source code, design, graphics, documentation, and associated files (the "Software"), is the exclusive property of **Bhat Computers**.
+
+## 1. Ownership
+
+All intellectual property rights in the Software are owned solely by Bhat Computers. No ownership rights are transferred by providing, selling, or distributing the Software.
+
+## 2. Permitted Use
+
+The owner of this copy of the Software may:
+
+* Install and use the Software for personal or commercial purposes.
+* Modify the Software for their own internal use.
+* Create backups for archival purposes.
+
+## 3. Restrictions
+
+Without prior written permission from Bhat Computers, you may not:
+
+* Sell, sublicense, rent, lease, or redistribute the Software.
+* Publish the source code or any substantial portion of it.
+* Upload the Software to public repositories, marketplaces, or file-sharing services.
+* Remove or alter copyright notices, branding, or license information.
+* Claim the Software or any part of it as your own work.
+
+## 4. Commercial Distribution
+
+Commercial resale, redistribution, white-label distribution, or inclusion of this Software in commercial products is prohibited unless expressly authorized in writing by Bhat Computers.
+
+## 5. No Warranty
+
+The Software is provided **"AS IS"**, without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+## 6. Limitation of Liability
+
+In no event shall Bhat Computers be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from the use of or inability to use the Software.
+
+## 7. Termination
+
+This license automatically terminates if any of its terms are violated. Upon termination, all copies of the Software must be destroyed or permanently deleted.
+
+## 8. Contact
+
+**Bhat Computers**
+Phone: **+91 7780980095**
+
+## 9. Acceptance
+
+By using, copying, modifying, or installing this Software, you acknowledge that you have read, understood, and agree to be bound by the terms of this License.
