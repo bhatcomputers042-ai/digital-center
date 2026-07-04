@@ -1,0 +1,70 @@
+BHAT COMPUTERS PROPRIETARY SOFTWARE LICENSE
+
+Copyright © 2026 Bhat Computers.
+All Rights Reserved.
+
+This software, including all source code, documentation, images, graphics,
+logos, and other related materials (collectively, the "Software"), is the
+exclusive property of Bhat Computers and is protected by applicable copyright
+and intellectual property laws.
+
+1. Ownership
+
+Bhat Computers retains all ownership rights, title, and interest in the
+Software.
+
+2. Permitted Use
+
+The Software may be used only by Bhat Computers or by individuals or
+organizations that have received prior written permission from Bhat Computers.
+
+3. Restrictions
+
+Without prior written permission from Bhat Computers, you may NOT:
+
+• Copy or reproduce the Software.
+• Modify or create derivative works.
+• Redistribute or resell the Software.
+• Publish the source code.
+• Upload the Software to public repositories.
+• Reverse engineer, decompile, or disassemble the Software where prohibited by law.
+• Remove or alter copyright notices or branding.
+
+4. Commercial Use
+
+Commercial use, licensing, resale, rental, or integration into other products
+or services is prohibited unless expressly authorized in writing by
+Bhat Computers.
+
+5. No Warranty
+
+The Software is provided "AS IS", without warranty of any kind, express or
+implied, including but not limited to warranties of merchantability, fitness
+for a particular purpose, and non-infringement.
+
+6. Limitation of Liability
+
+To the maximum extent permitted by applicable law, Bhat Computers shall not be
+liable for any direct, indirect, incidental, special, consequential, or
+punitive damages arising from the use of or inability to use the Software.
+
+7. Termination
+
+Any unauthorized use of the Software automatically terminates any rights
+granted under this license. Upon termination, all copies of the Software must
+be permanently deleted.
+
+8. Governing Law
+
+This License shall be governed by the laws applicable in the jurisdiction where
+Bhat Computers operates. Any disputes shall be subject to the competent courts
+having jurisdiction over those matters.
+
+9. Contact
+
+Bhat Computers
+Phone: +91 7780980095
+
+For licensing inquiries or permission requests, please contact Bhat Computers.
+
+END OF LICENSE
