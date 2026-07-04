@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhat Computers Camera</title>
 
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+}
+
+header{
+background:#0066cc;
+padding:15px;
+font-size:26px;
+font-weight:bold;
+}
+
+header span{
+display:block;
+font-size:18px;
+}
+
+.container{
+padding:20px;
+}
+
+video,canvas{
+width:95%;
+max-width:700px;
+border-radius:12px;
+border:4px solid white;
+}
+
+.controls{
+margin-top:20px;
+}
+
+button,select{
+padding:12px 20px;
+margin:8px;
+font-size:16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button{
+background:#28a745;
+color:white;
+}
+
+button:hover{
+background:#1d7d33;
+}
+
+#downloadBtn{
+display:none;
+background:#ff5722;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+Bhat Computers
+<span>7780980095</span>
+</header>
+
+<div class="container">
+
+<video id="video" autoplay playsinline></video>
+
+<br><br>
+
+<select id="filter">
+<option value="none">Normal</option>
+<option value="grayscale(100%)">Grayscale</option>
+<option value="sepia(100%)">Sepia</option>
+<option value="invert(100%)">Invert</option>
+<option value="blur(3px)">Blur</option>
+<option value="brightness(150%)">Brightness</option>
+<option value="contrast(180%)">Contrast</option>
+<option value="saturate(250%)">Saturate</option>
+</select>
+
+<br>
+
+<button onclick="capture()">📸 Capture</button>
+
+<button id="downloadBtn">⬇ Download</button>
+
+<br><br>
+
+<canvas id="canvas"></canvas>
+
+</div>
+
+<script>
+
+const video=document.getElementById("video");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+const filter=document.getElementById("filter");
+const download=document.getElementById("downloadBtn");
+
+navigator.mediaDevices.getUserMedia({
+video:true
+})
+.then(stream=>{
+video.srcObject=stream;
+});
+
+filter.onchange=function(){
+video.style.filter=this.value;
+}
+
+function capture(){
+
+canvas.width=video.videoWidth;
+canvas.height=video.videoHeight;
+
+ctx.filter=filter.value;
+ctx.drawImage(video,0,0);
+
+download.style.display="inline-block";
+
+download.onclick=function(){
+
+let a=document.createElement("a");
+
+a.href=canvas.toDataURL("image/png");
+
+a.download="BhatComputersPhoto.png";
+
+a.click();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
