@@ -1,1 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Bhat Computers - Professional Photo Resizer</title>
+
+<link rel="icon" href="assets/favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>Bhat Computers</h1>
+
+<p>📞 7780980095</p>
+
+<h2>Professional Photo Resizer</h2>
+
+</header>
+
+<div class="upload-area" id="dropArea">
+
+<img src="assets/icons/upload.svg" class="icon">
+
+<h3>Drag & Drop Image Here</h3>
+
+<p>or</p>
+
+<label for="fileInput" class="browseBtn">
+Choose Image
+</label>
+
+<input
+type="file"
+id="fileInput"
+accept="image/png,image/jpeg,image/webp">
+
+</div>
+
+<div class="preview-section">
+
+<div class="image-card">
+
+<h3>Preview</h3>
+
+<img id="previewImage" src="" alt="Preview">
+
+</div>
+
+<div class="details-card">
+
+<h3>Image Information</h3>
+
+<div class="info">
+
+<p>
+<strong>Original Size:</strong>
+
+<span id="originalSize">
+-
+</span>
+
+</p>
+
+<p>
+
+<strong>Original Dimensions:</strong>
+
+<span id="originalDimension">
+-
+</span>
+
+</p>
+
+<p>
+
+<strong>Resized Size:</strong>
+
+<span id="newSize">
+-
+</span>
+
+</p>
+
+<p>
+
+<strong>Resized Dimensions:</strong>
+
+<span id="newDimension">
+-
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="controls">
+
+<div class="grid">
+
+<div>
+
+<label>
+
+Width (px)
+
+</label>
+
+<input
+type="number"
+id="width"
+placeholder="Width">
+
+</div>
+
+<div>
+
+<label>
+
+Height (px)
+
+</label>
+
+<input
+type="number"
+id="height"
+placeholder="Height">
+
+</div>
+
+</div>
+
+<label class="checkbox">
+
+<input
+type="checkbox"
+id="lockRatio"
+checked>
+
+Lock Aspect Ratio
+
+</label>
+
+<hr>
+
+<h3>Resize by Percentage</h3>
+
+<select id="percentage">
+
+<option value="">Custom Size</option>
+
+<option value="25">25%</option>
+
+<option value="50">50%</option>
+
+<option value="75">75%</option>
+
+<option value="100">100%</option>
+
+<option value="125">125%</option>
+
+<option value="150">150%</option>
+
+<option value="200">200%</option>
+
+</select>
+
+<hr>
+
+<h3>Output Format</h3>
+
+<select id="format">
+
+<option value="image/jpeg">
+JPEG
+</option>
+
+<option value="image/png">
+PNG
+</option>
+
+<option value="image/webp">
+WEBP
+</option>
+
+</select>
+
+<h3>
+
+Image Quality
+
+</h3>
+
+<input
+type="range"
+id="quality"
+min="10"
+max="100"
+value="90">
+
+<p>
+
+Quality:
+<span id="qualityValue">
+
+90%
+
+</span>
+
+</p>
+
+<div class="buttons">
+
+<button id="resizeBtn">
+
+Resize Image
+
+</button>
+
+<button id="resetBtn">
+
+Reset
+
+</button>
+
+<a
+id="downloadBtn"
+download>
+
+Download Image
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026
+
+Bhat Computers
+
+All Rights Reserved.
+
+</p>
+
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
