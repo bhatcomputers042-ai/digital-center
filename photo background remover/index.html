@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhat Computers | AI Background Remover</title>
 
+    <link rel="stylesheet" href="style.css">
+
+    <script type="module">
+        import { removeBackground } from "https://cdn.jsdelivr.net/npm/@imgly/background-removal/+esm";
+        window.removeBackgroundAI = removeBackground;
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Bhat Computers</h1>
+        <p>Professional AI Background Remover</p>
+        <span>📞 7780980095</span>
+    </header>
+
+    <div class="upload-card">
+
+        <div id="dropArea" class="drop-area">
+
+            <div class="upload-icon">
+                📁
+            </div>
+
+            <h2>Drag & Drop Image</h2>
+
+            <p>or</p>
+
+            <label class="browse-btn">
+                Browse Image
+                <input type="file" id="fileInput" accept="image/*" hidden>
+            </label>
+
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p>Removing Background...</p>
+        </div>
+
+    </div>
+
+    <div class="preview-section">
+
+        <div class="image-box">
+
+            <h3>Original</h3>
+
+            <img id="originalImage">
+
+        </div>
+
+        <div class="image-box">
+
+            <h3>Result</h3>
+
+            <img id="resultImage">
+
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button id="removeBtn">
+            Remove Background
+        </button>
+
+        <a id="downloadBtn" download="background_removed.png">
+            <button>
+                Download PNG
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
