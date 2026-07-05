@@ -1,0 +1,309 @@
+/* --- Variables & Core Themes --- */
+:root {
+    --bg-primary: #f4f6f9;
+    --bg-card: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --accent: #1a365d;
+    --accent-hover: #2a4365;
+    --border-color: #e2e8f0;
+    --today-bg: #ebf8ff;
+    --today-border: #3182ce;
+    --holiday-color: #e53e3e;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a202c;
+    --bg-card: #2d3748;
+    --text-main: #f7fafc;
+    --text-muted: #a0aec0;
+    --accent: #3182ce;
+    --accent-hover: #63b3ed;
+    --border-color: #4a5568;
+    --today-bg: #2a4365;
+    --today-border: #63b3ed;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Reset & Layout --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Header Styling --- */
+.main-header {
+    background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow);
+}
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.brand-icon {
+    font-size: 2.5rem;
+    color: #63b3ed;
+}
+.brand-text h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.brand-text p {
+    font-size: 0.9rem;
+    color: #cbd5e0;
+}
+.phone-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+.phone-link:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* --- Main Structure --- */
+.dashboard-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    flex: 1;
+}
+
+@media (max-width: 992px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Calendar Core UI --- */
+.calendar-section {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.calendar-controls h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* --- Buttons --- */
+button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+button:hover {
+    background: var(--border-color);
+}
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+}
+.btn-primary:hover {
+    background: var(--accent-hover);
+}
+.nav-buttons, .utility-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* --- Calendar Grid --- */
+.weekdays-grid, .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+.weekdays-grid {
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.days-grid {
+    grid-auto-rows: minmax(100px, 1fr);
+    margin-top: 0.5rem;
+}
+.calendar-day {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.15s;
+}
+.calendar-day:hover {
+    background-color: var(--border-color);
+}
+.day-number {
+    font-weight: 600;
+}
+.hijri-subdate {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.day-tags {
+    width: 100%;
+    text-align: left;
+    margin-top: 0.25rem;
+}
+.holiday-tag {
+    font-size: 0.7rem;
+    background: rgba(229, 62, 62, 0.1);
+    color: var(--holiday-color);
+    padding: 2px 4px;
+    border-radius: 3px;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.has-note-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+/* --- Status Variants --- */
+.day-outside {
+    opacity: 0.3;
+}
+.day-today {
+    background-color: var(--today-bg) !important;
+    border: 2px solid var(--today-border) !important;
+}
+.day-selected {
+    background-color: var(--border-color);
+    box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+/* --- Sidebar Panel --- */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.panel-section {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+.panel-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+.day-details p {
+    margin-bottom: 0.5rem;
+}
+.gregorian-date { font-weight: 600; font-size: 1.1rem; }
+.hijri-date { color: var(--text-muted); font-style: italic; }
+.holiday-text { color: var(--holiday-color); font-weight: 500; }
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-main);
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 1rem;
+}
+
+/* --- Footer --- */
+.main-footer {
+    background: #1a202c;
+    color: #a0aec0;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: auto;
+    border-top: 3px solid #2a4365;
+}
+.footer-container p {
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+}
+
+/* --- Print Styles Override --- */
+@media print {
+    body, .dashboard-container, .calendar-section {
+        background: white !important;
+        color: black !important;
+    }
+    .main-header, .utility-buttons, .nav-buttons, .side-panel, .main-footer {
+        display: none !important;
+    }
+    .dashboard-container {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+    .calendar-section {
+        box-shadow: none;
+        padding: 0;
+    }
+    .calendar-day {
+        border: 1px solid #000 !important;
+        min-height: 120px;
+    }
+}
