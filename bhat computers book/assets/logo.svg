@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512">
+<rect width="100%" height="100%" rx="40" fill="#0b315d"/>
+<circle cx="256" cy="180" r="80" fill="#00b4ff"/>
+<text x="256" y="200" font-size="60" text-anchor="middle" fill="white" font-family="Arial">BC</text>
+<text x="256" y="320" font-size="34" text-anchor="middle" fill="white" font-family="Arial">BHAT COMPUTERS</text>
+<text x="256" y="365" font-size="24" text-anchor="middle" fill="#ffd700" font-family="Arial">7780980095</text>
+</svg>
