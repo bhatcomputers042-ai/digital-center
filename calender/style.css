@@ -1,0 +1,1064 @@
+/* ==========================================
+   BHAT COMPUTERS KOKERNAG CALENDAR
+   STYLE.CSS - PART 1
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --primary:#1565C0;
+    --secondary:#0D47A1;
+    --accent:#42A5F5;
+    --white:#ffffff;
+    --black:#111111;
+
+    --glass:rgba(255,255,255,.18);
+    --glassBorder:rgba(255,255,255,.35);
+
+    --shadow:0 15px 40px rgba(0,0,0,.25);
+
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    min-height:100vh;
+
+    background:linear-gradient(
+        135deg,
+        #0d47a1,
+        #1565c0,
+        #1e88e5,
+        #42a5f5
+    );
+
+    overflow-x:hidden;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+/* Animated Background */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    radial-gradient(circle at top left,#ffffff33,transparent 35%),
+    radial-gradient(circle at bottom right,#ffffff22,transparent 40%);
+
+    animation:bgMove 12s ease-in-out infinite alternate;
+
+    z-index:-2;
+
+}
+
+@keyframes bgMove{
+
+    from{
+        transform:scale(1) rotate(0deg);
+    }
+
+    to{
+        transform:scale(1.2) rotate(3deg);
+    }
+
+}
+
+/* Floating Blur Circles */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:320px;
+
+    height:320px;
+
+    background:#ffffff22;
+
+    border-radius:50%;
+
+    filter:blur(80px);
+
+    top:-80px;
+
+    left:-80px;
+
+    animation:float1 10s infinite alternate;
+
+    z-index:-1;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    width:280px;
+
+    height:280px;
+
+    background:#42a5f533;
+
+    border-radius:50%;
+
+    filter:blur(80px);
+
+    bottom:-80px;
+
+    right:-80px;
+
+    animation:float2 12s infinite alternate;
+
+    z-index:-1;
+
+}
+
+@keyframes float1{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(80px);
+    }
+
+}
+
+@keyframes float2{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-70px);
+    }
+
+}
+
+/* Main Container */
+
+.container{
+
+    width:100%;
+
+    max-width:980px;
+
+    background:var(--glass);
+
+    backdrop-filter:blur(20px);
+
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid var(--glassBorder);
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+
+}
+
+/* Header */
+
+header{
+
+    background:linear-gradient(
+        135deg,
+        var(--secondary),
+        var(--primary)
+    );
+
+    color:#fff;
+
+    padding:25px;
+
+}
+
+.logo-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+#logo{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    object-fit:cover;
+
+    border:4px solid rgba(255,255,255,.3);
+
+}
+
+.logo-box h1{
+
+    font-size:34px;
+
+    letter-spacing:2px;
+
+    font-weight:700;
+
+}
+
+.logo-box h3{
+
+    margin-top:4px;
+
+    font-weight:500;
+
+    color:#E3F2FD;
+
+}
+
+.logo-box p{
+
+    margin-top:10px;
+
+    font-size:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.logo-box i{
+
+    color:#FFD54F;
+
+}
+
+/* Clock Section */
+
+.clock-section{
+
+    padding:25px;
+
+    text-align:center;
+
+}
+
+.digital-clock{
+
+    font-size:48px;
+
+    font-weight:700;
+
+    color:var(--secondary);
+
+    letter-spacing:3px;
+
+}
+
+.today-date{
+
+    margin-top:12px;
+
+    font-size:18px;
+
+    color:#333;
+
+    font-weight:500;
+
+}
+/* ==========================================
+   BHAT COMPUTERS KOKERNAG CALENDAR
+   STYLE.CSS - PART 2
+   Calendar Controls & Calendar Grid
+========================================== */
+
+/* Calendar Navigation */
+
+.calendar-controls{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 30px;
+
+    background:rgba(255,255,255,.15);
+
+    border-top:1px solid rgba(255,255,255,.2);
+    border-bottom:1px solid rgba(255,255,255,.2);
+
+}
+
+.calendar-controls h2{
+
+    font-size:32px;
+
+    color:var(--secondary);
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    text-align:center;
+
+    flex:1;
+
+}
+
+.calendar-controls button{
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    border-radius:50%;
+
+    color:#fff;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    font-size:22px;
+
+    transition:.35s;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.20);
+
+}
+
+.calendar-controls button:hover{
+
+    transform:scale(1.12);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.30);
+
+}
+
+.calendar-controls button:active{
+
+    transform:scale(.94);
+
+}
+
+/* Weekday Heading */
+
+.weekdays{
+
+    display:grid;
+
+    grid-template-columns:repeat(7,1fr);
+
+    background:#0D47A1;
+
+    color:#fff;
+
+}
+
+.weekdays div{
+
+    padding:18px 10px;
+
+    text-align:center;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    border-right:1px solid rgba(255,255,255,.15);
+
+}
+
+.weekdays div:last-child{
+
+    border-right:none;
+
+}
+
+/* Calendar Grid */
+
+.calendar{
+
+    display:grid;
+
+    grid-template-columns:repeat(7,1fr);
+
+    gap:12px;
+
+    padding:25px;
+
+}
+
+/* Day Cell */
+
+.day{
+
+    min-height:95px;
+
+    background:rgba(255,255,255,.18);
+
+    border:1px solid rgba(255,255,255,.30);
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:flex-start;
+
+    align-items:flex-start;
+
+    padding:12px;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:#222;
+
+    transition:.30s;
+
+    position:relative;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+}
+
+/* Hover Animation */
+
+.day:hover{
+
+    transform:translateY(-6px);
+
+    background:rgba(255,255,255,.35);
+
+    box-shadow:0 15px 25px rgba(0,0,0,.18);
+
+}
+
+/* Empty Cells */
+
+.day.empty{
+
+    background:transparent;
+
+    border:none;
+
+    box-shadow:none;
+
+    cursor:default;
+
+}
+
+.day.empty:hover{
+
+    transform:none;
+
+}
+
+/* Today's Date */
+
+.day.today{
+
+    background:linear-gradient(
+        135deg,
+        #FF9800,
+        #F57C00
+    );
+
+    color:#fff;
+
+    border:none;
+
+    box-shadow:0 12px 25px rgba(245,124,0,.45);
+
+}
+
+.day.today::after{
+
+    content:"TODAY";
+
+    position:absolute;
+
+    bottom:8px;
+
+    right:8px;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    color:#fff;
+
+    background:rgba(255,255,255,.20);
+
+    padding:3px 7px;
+
+    border-radius:20px;
+
+}
+
+/* Sunday */
+
+.day.sunday{
+
+    color:#E53935;
+
+    font-weight:700;
+
+}
+
+/* Saturday */
+
+.day.saturday{
+
+    color:#1565C0;
+
+    font-weight:700;
+
+}
+
+/* Holiday */
+
+.day.holiday{
+
+    background:#FFEBEE;
+
+    border:1px solid #EF5350;
+
+    color:#C62828;
+
+}
+
+/* Selected Date */
+
+.day.selected{
+
+    outline:3px solid var(--accent);
+
+    transform:scale(1.03);
+
+}
+
+/* Small Event Dot */
+
+.day .event-dot{
+
+    position:absolute;
+
+    bottom:10px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:8px;
+
+    height:8px;
+
+    background:#4CAF50;
+
+    border-radius:50%;
+
+}
+/* ==========================================
+   BHAT COMPUTERS KOKERNAG CALENDAR
+   STYLE.CSS - PART 3 (FINAL)
+   Footer • Responsive • Dark Mode • Print
+========================================== */
+
+/* Footer */
+
+footer{
+    padding:25px;
+    text-align:center;
+    background:rgba(255,255,255,.15);
+    border-top:1px solid rgba(255,255,255,.25);
+}
+
+footer h3{
+    color:var(--secondary);
+    font-size:24px;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+footer p{
+    color:#444;
+    font-size:15px;
+    margin-bottom:20px;
+}
+
+/* Footer Buttons */
+
+footer button{
+
+    border:none;
+    outline:none;
+    cursor:pointer;
+
+    margin:8px;
+
+    padding:14px 24px;
+
+    border-radius:50px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#fff;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    transition:.3s;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.20);
+
+}
+
+footer button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.30);
+
+}
+
+footer button i{
+
+    margin-right:8px;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#dfefff;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:var(--secondary);
+}
+
+/* Fade Animation */
+
+.container{
+
+    animation:fadeIn .8s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.logo-box{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.logo-box h1{
+
+    font-size:28px;
+
+}
+
+.calendar{
+
+    gap:8px;
+
+}
+
+.day{
+
+    min-height:75px;
+
+    font-size:18px;
+
+}
+
+.digital-clock{
+
+    font-size:36px;
+
+}
+
+.calendar-controls h2{
+
+    font-size:24px;
+
+}
+
+}
+
+@media(max-width:650px){
+
+body{
+
+    padding:10px;
+
+}
+
+.container{
+
+    border-radius:18px;
+
+}
+
+.weekdays div{
+
+    padding:10px 2px;
+
+    font-size:13px;
+
+}
+
+.calendar{
+
+    gap:5px;
+
+    padding:10px;
+
+}
+
+.day{
+
+    min-height:58px;
+
+    padding:8px;
+
+    font-size:15px;
+
+    border-radius:10px;
+
+}
+
+.calendar-controls{
+
+    padding:15px;
+
+}
+
+.calendar-controls button{
+
+    width:45px;
+
+    height:45px;
+
+    font-size:18px;
+
+}
+
+.calendar-controls h2{
+
+    font-size:20px;
+
+}
+
+.digital-clock{
+
+    font-size:28px;
+
+}
+
+.today-date{
+
+    font-size:15px;
+
+}
+
+footer h3{
+
+    font-size:20px;
+
+}
+
+footer p{
+
+    font-size:13px;
+
+}
+
+footer button{
+
+    width:100%;
+
+    margin:8px 0;
+
+}
+
+}
+
+/* Dark Mode */
+
+body.dark{
+
+    background:#0f172a;
+
+}
+
+body.dark .container{
+
+    background:rgba(15,23,42,.85);
+
+    color:#fff;
+
+}
+
+body.dark header{
+
+    background:#020617;
+
+}
+
+body.dark .calendar-controls{
+
+    background:#162033;
+
+}
+
+body.dark footer{
+
+    background:#162033;
+
+}
+
+body.dark .day{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    color:#fff;
+
+}
+
+body.dark .day.empty{
+
+    background:transparent;
+
+}
+
+body.dark .today-date{
+
+    color:#ddd;
+
+}
+
+body.dark footer p{
+
+    color:#ccc;
+
+}
+
+body.dark footer h3{
+
+    color:#fff;
+
+}
+
+/* Print */
+
+@media print{
+
+body{
+
+    background:#fff;
+
+    padding:0;
+
+}
+
+.background{
+
+    display:none;
+
+}
+
+.calendar-controls button,
+footer button{
+
+    display:none;
+
+}
+
+.container{
+
+    box-shadow:none;
+
+    border:none;
+
+    width:100%;
+
+    max-width:100%;
+
+}
+
+header{
+
+    color:#000;
+
+    background:#fff;
+
+}
+
+footer{
+
+    background:#fff;
+
+}
+
+.day{
+
+    border:1px solid #999;
+
+    background:#fff;
+
+}
+
+}
+/*==================================
+  BHAT COMPUTERS HTML LOGO
+==================================*/
+
+.html-logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-circle{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#0D47A1,#42A5F5);
+
+    border:4px solid rgba(255,255,255,.35);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+    animation:logoSpin 8s linear infinite;
+}
+
+.bc{
+
+    color:#fff;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-shadow:0 2px 8px rgba(0,0,0,.35);
+}
+
+@keyframes logoSpin{
+
+    0%{
+        transform:rotate(0deg);
+    }
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+.logo-circle:hover{
+
+    animation-play-state:paused;
+
+    transform:scale(1.08);
+
+    transition:.3s;
+
+}

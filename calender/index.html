@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHAT COMPUTERS KOKERNAG - Calendar</title>
 
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+
+    <!-- Header -->
+    <header>
+
+        <div class="logo-box">
+
+            <!-- Replace with your own logo -->
+            <div id="logo" class="html-logo">
+    <div class="logo-circle">
+        <span class="bc">BC</span>
+    </div>
+</div>
+
+            <div>
+
+                <h1>BHAT COMPUTERS</h1>
+
+                <h3>KOKERNAG</h3>
+
+                <p>
+                    <i class="fa-solid fa-phone"></i>
+                    7780980095
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Clock -->
+    <section class="clock-section">
+
+        <div class="digital-clock" id="clock">
+            00:00:00
+        </div>
+
+        <div class="today-date" id="todayDate">
+            Loading...
+        </div>
+
+    </section>
+
+    <!-- Calendar Controls -->
+
+    <section class="calendar-controls">
+
+        <button id="prevMonth">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+
+        <h2 id="monthYear">
+            July 2026
+        </h2>
+
+        <button id="nextMonth">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+    </section>
+
+    <!-- Week Days -->
+
+    <div class="weekdays">
+
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+
+    </div>
+
+    <!-- Calendar -->
+
+    <div class="calendar" id="calendar">
+
+    </div>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <h3>
+            BHAT COMPUTERS KOKERNAG
+        </h3>
+
+        <p>
+            Computer Services | Online Services | Passport Photos | Printing | Scanning
+        </p>
+
+        <button id="todayBtn">
+            <i class="fa-solid fa-calendar-day"></i>
+            Today
+        </button>
+
+        <button id="printBtn">
+            <i class="fa-solid fa-print"></i>
+            Print Calendar
+        </button>
+
+    </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
