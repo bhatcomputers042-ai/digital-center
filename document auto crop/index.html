@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Scanner Tool - Bhat Computers</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="doc-tool-page">
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Document Scanner Tool</h1>
+        <p>
+          Upload a document image, auto-detect the page edges, adjust the 4 corner points if needed,
+          crop the document like a scanner, enhance it, and download the result.
+        </p>
+      </div>
 
+      <div class="tool-grid">
+        <!-- LEFT PANEL -->
+        <div class="panel card">
+          <h2>Upload & Controls</h2>
+
+          <div class="upload-box">
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <button id="chooseBtn" class="btn primary">Choose Document Image</button>
+            <p>Supported: JPG, PNG, WEBP</p>
+          </div>
+
+          <div class="controls">
+            <button id="detectBtn" class="btn primary" disabled>Auto Detect Document</button>
+            <button id="cropPointsBtn" class="btn primary" disabled>Crop Selected Area</button>
+
+            <div class="rotate-group">
+              <button id="rotateLeftBtn" class="btn secondary" disabled>Rotate Left</button>
+              <button id="rotateRightBtn" class="btn secondary" disabled>Rotate Right</button>
+            </div>
+
+            <button id="resetPointsBtn" class="btn secondary" disabled>Reset Corner Points</button>
+
+            <label class="checkbox-row">
+              <input type="checkbox" id="bwMode" />
+              <span>Black & White Scan Mode</span>
+            </label>
+
+            <div class="slider-wrap">
+              <label for="brightnessRange">
+                Brightness <span id="brightnessValue">100%</span>
+              </label>
+              <input type="range" id="brightnessRange" min="50" max="180" value="100" />
+            </div>
+
+            <div class="slider-wrap">
+              <label for="contrastRange">
+                Contrast <span id="contrastValue">100%</span>
+              </label>
+              <input type="range" id="contrastRange" min="50" max="180" value="100" />
+            </div>
+
+            <div class="rotate-group">
+              <button id="downloadBtn" class="btn success" disabled>Download Scanned Image</button>
+              <button id="resetBtn" class="btn secondary" disabled>Reset</button>
+            </div>
+          </div>
+
+          <div class="status-box" id="statusBox">OpenCV is loading...</div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="panel card">
+          <h2>Preview</h2>
+
+          <div class="preview-tabs">
+            <button class="tab-btn active" data-target="originalPreview">Original / Points</button>
+            <button class="tab-btn" data-target="croppedPreview">Scanned Output</button>
+          </div>
+
+          <div class="preview-area">
+            <div class="preview-panel active" id="originalPreview">
+              <div class="canvas-wrap" id="canvasWrap">
+                <canvas id="originalCanvas"></canvas>
+                <canvas id="overlayCanvas"></canvas>
+              </div>
+              <div class="preview-note">
+                Auto-detect the document, then drag the blue corner points to fit the page exactly.
+              </div>
+            </div>
+
+            <div class="preview-panel" id="croppedPreview">
+              <canvas id="croppedCanvas"></canvas>
+              <div class="preview-note">Final cropped / scanned output</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card card">
+        <h3>How to use</h3>
+        <ol>
+          <li>Upload a document image.</li>
+          <li>Click <strong>Auto Detect Document</strong>.</li>
+          <li>If needed, drag the 4 corner points to match the page edges.</li>
+          <li>Click <strong>Crop Selected Area</strong>.</li>
+          <li>Enable black & white mode or adjust brightness/contrast if needed.</li>
+          <li>Download the final scanned image.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://docs.opencv.org/4.x/opencv.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
